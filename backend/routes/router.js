@@ -18,6 +18,7 @@ import {
 
 import { createUser } from '../controllers/userController.js'
 import { getRoles } from '../controllers/roleController.js'
+import { runQuery } from '../controllers/queryController.js'
 
 const router = express.Router()
 
@@ -43,5 +44,7 @@ router.post('/users', createUser)
 router.get('/roles', getRoles)
 router.delete('/users/:id', verifySession, deleteUser)
 router.put('/users/:id', verifySession, updateUser)
+
+router.post('/queries', runQuery)
 
 export default router
