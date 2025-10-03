@@ -1,16 +1,16 @@
-//src/components/modals/ConfirmationModal.vue
+<!-- src/components/modals/ConfirmationModal.vue -->
 <template>
-  <div class="create-user-container">
+  <div class="user-create">
     <!-- Panel principal del formulario -->
-    <div class="form-panel">
-      <form @submit.prevent="showConfirmationModal" class="user-form">
+    <div class="user-create__panel">
+      <form @submit.prevent="showConfirmationModal" class="user-create__form">
         <!-- Sección de información básica -->
-        <div class="form-section">
-          <h3 class="section-title">
+        <div class="user-create__section">
+          <h3 class="user-create__section-title">
             <font-awesome-icon :icon="faUser" />
             Información Básica
           </h3>
-          <div class="form-grid">
+          <div class="user-create__grid">
             <FormField
               id="username"
               v-model="formData.username"
@@ -37,12 +37,12 @@
         </div>
 
         <!-- Sección de detalles personales -->
-        <div class="form-section">
-          <h3 class="section-title">
+        <div class="user-create__section">
+          <h3 class="user-create__section-title">
             <font-awesome-icon :icon="faIdCard" />
             Detalles Personales
           </h3>
-          <div class="form-grid">
+          <div class="user-create__grid">
             <FormField
               id="first_name"
               v-model="formData.first_name"
@@ -127,12 +127,12 @@
         </div>
 
         <!-- Sección de seguridad -->
-        <div class="form-section">
-          <h3 class="section-title">
+        <div class="user-create__section">
+          <h3 class="user-create__section-title">
             <font-awesome-icon :icon="faShieldAlt" />
             Seguridad y Permisos
           </h3>
-          <div class="form-grid">
+          <div class="user-create__grid">
             <FormField
               id="password"
               v-model="formData.password"
@@ -157,19 +157,19 @@
               <template #icon><font-awesome-icon :icon="faLock" /></template>
             </FormField>
 
-            <div class="form-group">
-              <label class="form-label">Rol del Usuario *</label>
+            <div class="user-create__group">
+              <label class="user-create__label">Rol del Usuario *</label>
               <RoleSelector v-model="formData.role_id" />
-              <small class="form-hint">Seleccione el nivel de acceso del usuario</small>
+              <small class="user-create__hint">Seleccione el nivel de acceso del usuario</small>
             </div>
 
-            <div class="form-group notification-group">
-              <label class="form-label">Notificar al usuario</label>
-              <label class="switch">
+            <div class="user-create__group user-create__group--notification">
+              <label class="user-create__label">Notificar al usuario</label>
+              <label class="user-create__switch">
                 <input type="checkbox" v-model="formData.send_notification" />
-                <span class="slider round"></span>
+                <span class="user-create__slider user-create__slider--round"></span>
               </label>
-              <small class="form-hint" v-if="formData.send_notification">
+              <small class="user-create__hint" v-if="formData.send_notification">
                 Se enviará un correo con las credenciales al usuario
               </small>
             </div>
@@ -177,12 +177,16 @@
         </div>
 
         <!-- Acciones del formulario -->
-        <div class="form-actions">
-          <button type="button" class="btn btn-secondary" @click="cancel">
+        <div class="user-create__actions">
+          <button
+            type="button"
+            class="user-create__btn user-create__btn--secondary"
+            @click="cancel"
+          >
             <font-awesome-icon :icon="faTimes" />
             Cancelar
           </button>
-          <button type="submit" class="btn btn-primary">
+          <button type="submit" class="user-create__btn user-create__btn--primary">
             <font-awesome-icon :icon="faSave" />
             Guardar Usuario
           </button>
@@ -372,9 +376,8 @@ const resetForm = () => {
   errors.value = {}
 }
 </script>
-
 <style scoped>
-.create-user-container {
+.user-create {
   padding: 20px;
   height: 100%;
   background: var(--color-bg-gradient-end);
@@ -382,54 +385,7 @@ const resetForm = () => {
   overflow-y: auto;
 }
 
-.page-header {
-  margin-bottom: 25px;
-  border-bottom: 1px solid var(--color-primary-dark);
-  padding-bottom: 15px;
-}
-
-.breadcrumbs {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.85rem;
-  margin-bottom: 10px;
-  color: var(--color-text-secondary);
-}
-
-.breadcrumb-link {
-  color: var(--color-primary);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.breadcrumb-link:hover {
-  color: var(--color-accent);
-  text-decoration: underline;
-}
-
-.breadcrumb-separator {
-  color: var(--color-primary-dark);
-}
-
-.breadcrumb-current {
-  color: var(--color-text-secondary);
-}
-
-.page-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--color-primary);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.title-icon {
-  color: var(--color-accent);
-}
-
-.form-panel {
+.user-create__panel {
   background: var(--color-bg-header);
   border-radius: 8px;
   padding: 20px;
@@ -437,16 +393,16 @@ const resetForm = () => {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.form-section {
+.user-create__section {
   padding-bottom: 20px;
 }
 
-.form-section:last-child {
+.user-create__section:last-child {
   border-bottom: none;
   margin-bottom: 0;
 }
 
-.section-title {
+.user-create__section-title {
   font-size: 1.1rem;
   font-weight: 500;
   color: var(--color-primary);
@@ -456,18 +412,22 @@ const resetForm = () => {
   gap: 8px;
 }
 
-.form-grid {
+.user-create__grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
 }
 
-.form-group {
+.user-create__group {
   margin-top: -1.6px;
   margin-bottom: 15px;
 }
 
-.form-label {
+.user-create__group--notification {
+  margin-top: -40px;
+}
+
+.user-create__label {
   display: block;
   margin-bottom: 8px;
   font-size: 0.9rem;
@@ -475,20 +435,20 @@ const resetForm = () => {
   color: var(--color-primary);
 }
 
-.form-hint {
+.user-create__hint {
   display: block;
   margin-top: 5px;
   font-size: 0.8rem;
   color: var(--color-text-secondary);
 }
 
-.permissions-grid {
+.user-create__permissions {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 10px;
 }
 
-.permission-option {
+.user-create__option {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -498,13 +458,13 @@ const resetForm = () => {
   padding-left: 25px;
 }
 
-.permission-option input {
+.user-create__option input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
 }
 
-.checkmark {
+.user-create__checkmark {
   position: absolute;
   left: 0;
   height: 18px;
@@ -514,26 +474,26 @@ const resetForm = () => {
   border-radius: 4px;
 }
 
-.permission-option:hover input ~ .checkmark {
+.user-create__option:hover input ~ .user-create__checkmark {
   border-color: var(--color-primary);
 }
 
-.permission-option input:checked ~ .checkmark {
+.user-create__option input:checked ~ .user-create__checkmark {
   background-color: var(--color-accent);
   border-color: var(--color-accent);
 }
 
-.checkmark:after {
+.user-create__checkmark:after {
   content: '';
   position: absolute;
   display: none;
 }
 
-.permission-option input:checked ~ .checkmark:after {
+.user-create__option input:checked ~ .user-create__checkmark:after {
   display: block;
 }
 
-.permission-option .checkmark:after {
+.user-create__checkmark:after {
   left: 6px;
   top: 2px;
   width: 5px;
@@ -543,12 +503,12 @@ const resetForm = () => {
   transform: rotate(45deg);
 }
 
-.radio-group {
+.user-create__radio-group {
   display: flex;
   gap: 15px;
 }
 
-.radio-option {
+.user-create__radio-option {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -558,13 +518,13 @@ const resetForm = () => {
   padding-left: 25px;
 }
 
-.radio-option input {
+.user-create__radio-option input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
 }
 
-.radiomark {
+.user-create__radiomark {
   position: absolute;
   left: 0;
   height: 18px;
@@ -574,25 +534,25 @@ const resetForm = () => {
   border-radius: 50%;
 }
 
-.radio-option:hover input ~ .radiomark {
+.user-create__radio-option:hover input ~ .user-create__radiomark {
   border-color: var(--color-primary);
 }
 
-.radio-option input:checked ~ .radiomark {
+.user-create__radio-option input:checked ~ .user-create__radiomark {
   border-color: var(--color-accent);
 }
 
-.radiomark:after {
+.user-create__radiomark:after {
   content: '';
   position: absolute;
   display: none;
 }
 
-.radio-option input:checked ~ .radiomark:after {
+.user-create__radio-option input:checked ~ .user-create__radiomark:after {
   display: block;
 }
 
-.radio-option .radiomark:after {
+.user-create__radiomark:after {
   top: 3px;
   left: 3px;
   width: 10px;
@@ -601,20 +561,21 @@ const resetForm = () => {
   background: var(--color-accent);
 }
 
-.switch {
+/* Switch */
+.user-create__switch {
   position: relative;
   display: inline-block;
   width: 50px;
   height: 24px;
 }
 
-.switch input {
+.user-create__switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
 
-.slider {
+.user-create__slider {
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -625,7 +586,7 @@ const resetForm = () => {
   transition: 0.4s;
 }
 
-.slider:before {
+.user-create__slider:before {
   position: absolute;
   content: '';
   height: 16px;
@@ -636,27 +597,28 @@ const resetForm = () => {
   transition: 0.4s;
 }
 
-input:checked + .slider {
+.user-create__switch input:checked + .user-create__slider {
   background-color: var(--color-accent);
 }
 
-input:focus + .slider {
+.user-create__switch input:focus + .user-create__slider {
   box-shadow: 0 0 1px var(--color-accent);
 }
 
-input:checked + .slider:before {
+.user-create__switch input:checked + .user-create__slider:before {
   transform: translateX(26px);
 }
 
-.slider.round {
+.user-create__slider--round {
   border-radius: 24px;
 }
 
-.slider.round:before {
+.user-create__slider--round:before {
   border-radius: 50%;
 }
 
-.form-actions {
+/* Botones y acciones */
+.user-create__actions {
   display: flex;
   justify-content: flex-end;
   gap: 15px;
@@ -665,7 +627,7 @@ input:checked + .slider:before {
   border-top: 1px solid var(--color-primary-dark);
 }
 
-.btn {
+.user-create__btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -679,50 +641,48 @@ input:checked + .slider:before {
   border: 1px solid transparent;
 }
 
-.btn-secondary {
+.user-create__btn--secondary {
   background-color: transparent;
   color: var(--color-primary);
   border-color: var(--color-primary-dark);
 }
 
-.btn-secondary:hover {
+.user-create__btn--secondary:hover {
   background-color: rgba(255, 255, 255, 0.05);
   border-color: var(--color-primary);
 }
 
-.btn-primary {
+.user-create__btn--primary {
   background-color: var(--color-accent);
   color: var(--color-bg-header);
   font-weight: 600;
 }
 
-.btn-primary:hover {
+.user-create__btn--primary:hover {
   background-color: var(--color-primary);
   box-shadow: 0 2px 8px rgba(0, 224, 255, 0.3);
 }
 
-.notification-group {
-  margin-top: -40px;
-}
+/* Responsive */
 @media (max-width: 768px) {
-  .form-grid {
+  .user-create__grid {
     grid-template-columns: 1fr;
   }
 
-  .permissions-grid {
+  .user-create__permissions {
     grid-template-columns: 1fr;
   }
 
-  .radio-group {
+  .user-create__radio-group {
     flex-direction: column;
     gap: 10px;
   }
 
-  .form-actions {
+  .user-create__actions {
     flex-direction: column-reverse;
   }
 
-  .btn {
+  .user-create__btn {
     width: 100%;
   }
 }

@@ -1,10 +1,9 @@
 <!-- src/components/charts/PressureChart.vue -->
 <template>
-  <div class="chart-container">
+  <div class="chart chart--pressure">
     <BaseChart :config="chartConfig" />
   </div>
 </template>
-
 <script setup>
 import BaseChart from './BaseChart.vue'
 import { ref, onMounted, onBeforeUnmount } from 'vue'
@@ -111,7 +110,7 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-.chart-container {
+.chart--pressure {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -123,7 +122,7 @@ onBeforeUnmount(() => {
   height: 100%;
 }
 
-.chart-container canvas {
+.chart--pressure__canvas {
   width: 100% !important;
   height: 100% !important;
   min-height: 250px;

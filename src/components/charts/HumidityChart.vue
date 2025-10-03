@@ -1,6 +1,6 @@
 <!-- src/components/charts/HumidityChart.vue -->
 <template>
-  <div class="chart-wrapper humidity">
+  <div class="chart chart--humidity">
     <BaseChart :config="chartConfig" />
   </div>
 </template>
@@ -122,7 +122,7 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-.chart-wrapper.humidity {
+.chart--humidity {
   background: var(--color-bg-header);
   border-radius: 16px;
   padding: 20px;

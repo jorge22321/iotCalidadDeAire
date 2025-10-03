@@ -1,6 +1,6 @@
 <!-- src/components/charts/CO2Chart.vue -->
 <template>
-  <div class="chart-wrapper co2">
+  <div class="chart chart--co2">
     <BaseChart :config="chartConfig" />
   </div>
 </template>
@@ -156,16 +156,15 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-.chart-wrapper.co2 {
+.chart--co2 {
   background: var(--color-bg-header);
   border-radius: 16px;
   padding: 20px;
   border-top: 3px solid #00ffab;
-
   position: relative;
 }
 
-.alert-indicator {
+.chart--co2__alert {
   position: absolute;
   top: 15px;
   right: 15px;

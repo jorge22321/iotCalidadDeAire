@@ -1,38 +1,39 @@
 <!-- src/components/SidebarMenu.vue -->
 <template>
   <aside class="sidebar" :class="{ collapsed: isCollapsed }">
-    <div class="top-container" :class="{ collapsed: isCollapsed }">
-      <div class="logo-container" :class="{ collapsed: isCollapsed }">
-        <img src="@/assets/logo.svg" alt="Logo" class="logo" />
-        <span v-if="!isCollapsed" class="app-name">IoT-App</span>
+    <div class="sidebar__top" :class="{ collapsed: isCollapsed }">
+      <div class="sidebar__logo-container" :class="{ collapsed: isCollapsed }">
+        <img src="@/assets/logo.svg" alt="Logo" class="sidebar__logo" />
+        <span v-if="!isCollapsed" class="sidebar__app-name">IoT-App</span>
       </div>
-      <button class="menu-toggle" :class="{ collapsed: isCollapsed }" @click="toggleCollapse">
+      <button class="sidebar__toggle" :class="{ collapsed: isCollapsed }" @click="toggleCollapse">
         ☰
       </button>
     </div>
 
-    <nav class="menu">
+    <nav class="sidebar__menu">
       <div
         v-for="item in filteredMenuItems"
         :key="item.name"
-        class="menu-item"
+        class="sidebar__menu-item"
         @mouseover="hoverItem = item.name"
         @mouseleave="hoverItem = null"
       >
         <router-link :to="item.path" @click="handleMenuClick">
-          <span class="icon">
+          <span class="sidebar__icon">
             <font-awesome-icon :icon="item.icon" />
           </span>
           <transition name="fade">
-            <span class="text" v-if="!isCollapsed">{{ item.name }}</span>
+            <span class="sidebar__text" v-if="!isCollapsed">{{ item.name }}</span>
           </transition>
-          <span class="tooltip" v-if="isCollapsed && hoverItem === item.name">{{ item.name }}</span>
+          <span class="sidebar__tooltip" v-if="isCollapsed && hoverItem === item.name">
+            {{ item.name }}
+          </span>
         </router-link>
       </div>
     </nav>
   </aside>
 </template>
-
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
 import { useSidebarStore } from '@/stores/sidebar'
@@ -80,9 +81,8 @@ onMounted(() => {
   authStore.fetchUserRole()
 })
 </script>
-
 <style scoped>
-/* TODOS LOS ESTILOS SE MANTIENEN EXACTAMENTE IGUAL */
+/* Sidebar base */
 .sidebar {
   width: 200px;
   height: 100%;
@@ -102,7 +102,8 @@ onMounted(() => {
   width: 60px;
 }
 
-.top-container {
+/* Top container */
+.sidebar__top {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -110,14 +111,43 @@ onMounted(() => {
   transition: all 0.3s ease;
 }
 
-.top-container.collapsed {
+.sidebar__top.collapsed {
   flex-direction: column;
   justify-content: center;
   gap: 15px;
   padding: 10px 0;
 }
 
-.menu-toggle {
+/* Logo + Nombre */
+.sidebar__logo-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.sidebar__logo-container.collapsed {
+  flex-direction: column;
+  gap: 5px;
+  margin: 0;
+}
+
+.sidebar__logo {
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  margin-top: 8px;
+}
+
+.sidebar__app-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+
+/* Toggle */
+.sidebar__toggle {
   background: none;
   border: none;
   color: var(--color-primary);
@@ -128,93 +158,73 @@ onMounted(() => {
   margin: 0;
 }
 
-.menu-toggle:hover {
+.sidebar__toggle:hover {
   color: var(--color-accent);
 }
 
-.logo-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  transition: all 0.3s ease;
-}
-
-.logo-container.collapsed {
-  flex-direction: column;
-  gap: 5px;
-  margin: 0;
-}
-.top-container:not(.collapsed) .menu-toggle {
+.sidebar__top:not(.collapsed) .sidebar__toggle {
   margin-left: auto;
 }
 
-.logo {
-  width: 30px;
-  height: 30px;
-  min-width: 30px;
-  margin-top: 8px;
-}
-
-.app-name {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: var(--color-primary);
-  white-space: nowrap;
-}
-
-.menu {
+/* Menu */
+.sidebar__menu {
   padding: 10px 0;
   flex-grow: 1;
 }
 
-.menu-item {
+.sidebar__menu-item {
   padding: 12px 15px;
   transition: background 0.3s;
   cursor: pointer;
 }
 
-.menu-item:hover {
+.sidebar__menu-item:hover {
   background: var(--color-primary-dark);
   color: var(--color-bg-header);
 }
 
-.menu-item a {
+.sidebar__menu-item a {
   display: flex;
   align-items: center;
   gap: 10px;
   color: var(--color-primary);
   text-decoration: none;
   position: relative;
-  transition: all 0.3s ease; /* Cambiamos a 'all' para animar múltiples propiedades */
+  transition: all 0.3s ease;
 }
 
-.menu-item:hover a {
+.sidebar__menu-item:hover a {
   color: var(--color-bg-header);
 }
 
-.menu-item:hover .icon {
-  color: var(--color-bg-header);
-  transform: scale(1.1); /* Aumenta ligeramente el tamaño del icono */
-}
-
-.menu-item:hover .text {
-  font-weight: 600; /* Texto más grueso */
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Sombra sutil */
-}
-.icon {
+/* Icon */
+.sidebar__icon {
   font-size: 1.2rem;
   min-width: 30px;
   color: var(--color-primary);
-  transition: all 0.3s ease; /* Cambiamos a 'all' para animar tamaño y color */
-}
-.text {
-  white-space: nowrap;
-  transition: all 0.3s ease; /* Añadimos transición para el texto */
-  font-weight: 400; /* Peso normal por defecto */
-  text-shadow: none; /* Sin sombra por defecto */
+  transition: all 0.3s ease;
 }
 
-.tooltip {
+.sidebar__menu-item:hover .sidebar__icon {
+  color: var(--color-bg-header);
+  transform: scale(1.1);
+}
+
+/* Texto */
+.sidebar__text {
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  font-weight: 400;
+  text-shadow: none;
+}
+
+.sidebar__menu-item:hover .sidebar__text {
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Tooltip */
+.sidebar__tooltip {
   position: absolute;
   left: 100%;
   top: 50%;
@@ -228,6 +238,7 @@ onMounted(() => {
   z-index: 1000;
 }
 
+/* Fade transition */
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.3s;
@@ -236,6 +247,8 @@ onMounted(() => {
 .fade-leave-to {
   opacity: 0;
 }
+
+/* Responsive (mobile) */
 @media (max-width: 768px) {
   .sidebar {
     position: fixed;
@@ -249,52 +262,50 @@ onMounted(() => {
 
   .sidebar.collapsed {
     transform: translateX(-100%);
-    width: 100%; /* aseguramos que siga ocupando el 100% */
+    width: 100%;
   }
 
-  /* Cuando el sidebar está activo en móvil */
   .sidebar:not(.collapsed) {
     transform: translateX(0);
   }
 
-  .menu-toggle {
+  .sidebar__toggle {
     display: none;
   }
 
-  .top-container {
+  .sidebar__top {
     padding-top: 20px;
-    justify-content: center; /* centramos el logo */
-  }
-
-  .logo-container {
     justify-content: center;
   }
 
-  .menu {
+  .sidebar__logo-container {
+    justify-content: center;
+  }
+
+  .sidebar__menu {
     display: flex;
     flex-direction: column;
-    align-items: center; /* centramos horizontalmente */
+    align-items: center;
     padding: 20px 0;
   }
 
-  .menu-item {
+  .sidebar__menu-item {
     width: 100%;
-    text-align: center; /* centramos el texto */
+    text-align: center;
   }
 
-  .menu-item a {
-    justify-content: center; /* centramos ícono + texto */
+  .sidebar__menu-item a {
+    justify-content: center;
   }
 
-  .logo {
+  .sidebar__logo {
     width: 40px;
     height: 40px;
   }
 
-  .app-name {
+  .sidebar__app-name {
     font-size: 1.3rem;
     text-align: center;
   }
 }
-/* Para tablets más pequeñas */
 </style>

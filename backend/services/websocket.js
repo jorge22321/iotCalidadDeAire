@@ -1,23 +1,29 @@
-// backend/services/websocket.js
 import WebSocket, { WebSocketServer } from 'ws'
 import { mqttService } from './mqtt.js'
 
-/* ============================================================
-   SERVICIO WEBSOCKET (Único gestor de comunicación en tiempo real)
-   ============================================================ */
-
 let wssInstance = null
 
+// --- Estado compartido (como fanStatus, fanMode, etc.) ---
 let lastButtonStatus = {
   onStatus: false,
   offStatus: true,
 }
+
+// --- Lista de suscriptores (si algún servicio quiere escuchar cambios)
+const eventListeners = {
+  buttonStatus: [],
+}
+
+function notifyListeners(type, value) {
+  if (eventListeners[type]) {
+    eventListeners[type].forEach((cb) => cb(value))
+  }
+}
+
 /**
  * ================================
  * INICIALIZAR SERVIDOR WEBSOCKET
  * ================================
- * - Se monta sobre el servidor HTTP existente
- * - Maneja conexiones, mensajes y desconexiones
  */
 export function initWebSocket(server) {
   wssInstance = new WebSocketServer({ server, path: '' })
@@ -30,7 +36,6 @@ export function initWebSocket(server) {
     // Enviar estado inicial al cliente nuevo
     sendInitialState(ws)
 
-    // 📩 Manejo de mensajes entrantes
     ws.on('message', (message) => {
       handleWebSocketMessage(ws, message)
     })
@@ -43,39 +48,15 @@ export function initWebSocket(server) {
 
 /**
  * ================================
- * ENVIAR ESTADO INICIAL
+ * ESTADOS INICIALES
  * ================================
- * - Proporciona el estado actual al cliente recién conectado
- * - Incluye: modo, umbrales y estado del ventilador
  */
 export function sendInitialState(ws) {
   try {
-    ws.send(
-      JSON.stringify({
-        type: 'mode',
-        mode: mqttService.getFanMode(),
-      }),
-    )
-
-    ws.send(
-      JSON.stringify({
-        type: 'thresholds',
-        ...mqttService.getThresholds(),
-      }),
-    )
-
-    ws.send(
-      JSON.stringify({
-        type: 'fanStatus',
-        status: mqttService.getFanStatus(),
-      }),
-    )
-    ws.send(
-      JSON.stringify({
-        type: 'buttonStatus',
-        ...lastButtonStatus,
-      }),
-    )
+    ws.send(JSON.stringify({ type: 'mode', mode: mqttService.getFanMode() }))
+    ws.send(JSON.stringify({ type: 'thresholds', ...mqttService.getThresholds() }))
+    ws.send(JSON.stringify({ type: 'fanStatus', status: mqttService.getFanStatus() }))
+    ws.send(JSON.stringify({ type: 'buttonStatus', ...lastButtonStatus }))
   } catch (err) {
     console.error('❌ Error enviando estado inicial:', err)
   }
@@ -83,10 +64,8 @@ export function sendInitialState(ws) {
 
 /**
  * ================================
- * BROADCAST (a todos los clientes)
+ * BROADCAST GLOBAL
  * ================================
- * - Para transmitir información en tiempo real
- * - Ej: sensores, cambios de modo, estado de ventilador
  */
 export function broadcast(type, payload) {
   if (!wssInstance) return
@@ -100,14 +79,29 @@ export function broadcast(type, payload) {
   })
 }
 
-/* ============================================================
-   FUNCIONES AUXILIARES PRIVADAS
-   ============================================================ */
+/**
+ * ================================
+ * ESTADO DE BOTONES (API pública)
+ * ================================
+ */
+export function updateButtonStatus(status) {
+  lastButtonStatus = status
+  broadcast('buttonStatus', lastButtonStatus)
+  notifyListeners('buttonStatus', lastButtonStatus)
+}
+
+export function getButtonStatus() {
+  return lastButtonStatus
+}
+
+export function onButtonStatusChange(callback) {
+  eventListeners.buttonStatus.push(callback)
+}
 
 /**
- * Maneja mensajes entrantes desde clientes WebSocket
- * - Caso actual: "buttonStatus" (para sincronizar botones)
- * - El resto se maneja vía API REST
+ * ================================
+ * MANEJO DE MENSAJES CLIENTE
+ * ================================
  */
 function handleWebSocketMessage(ws, message) {
   try {
@@ -115,13 +109,10 @@ function handleWebSocketMessage(ws, message) {
 
     if (data.type === 'buttonStatus') {
       console.log('📩 Estado de botones recibido:', data)
-
-      lastButtonStatus = {
+      updateButtonStatus({
         onStatus: data.onStatus,
         offStatus: data.offStatus,
-      }
-      // Reenviar a TODOS los clientes conectados
-      broadcast('buttonStatus', lastButtonStatus)
+      })
     } else {
       console.log('📩 Mensaje recibido (sin acción):', data)
     }

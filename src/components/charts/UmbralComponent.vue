@@ -1,23 +1,26 @@
 <!-- src/components/charts/UmbralComponent.vue -->
 <template>
-  <div class="umbral-container">
-    <div class="umbral-content">
-      <div class="umbral-item" v-for="(item, index) in umbrales" :key="index">
-        <div class="umbral-header">
-          <span class="umbral-label">{{ item.label }}</span>
-          <div class="umbral-display">
-            {{ item.value }}<span class="umbral-unit">{{ item.unit }}</span>
+  <div class="umbral">
+    <div class="umbral__content">
+      <div class="umbral__item" v-for="(item, index) in umbrales" :key="index">
+        <div class="umbral__header">
+          <span class="umbral__label">{{ item.label }}</span>
+          <div class="umbral__display">
+            {{ item.value }}
+            <span class="umbral__unit">{{ item.unit }}</span>
           </div>
         </div>
 
-        <div class="umbral-controls">
-          <button @click="adjustValue(index, -1)" class="umbral-round-btn umbral-minus-btn">
+        <div class="umbral__controls">
+          <button @click="adjustValue(index, -1)" class="umbral__btn umbral__btn--minus">
             <svg width="12" height="2" viewBox="0 0 12 2" fill="none">
               <path d="M0 1H12" stroke="white" stroke-width="2" stroke-linecap="round" />
             </svg>
           </button>
-          <input type="number" v-model.number="item.tempValue" class="umbral-input" />
-          <button @click="adjustValue(index, 1)" class="umbral-round-btn umbral-plus-btn">
+
+          <input type="number" v-model.number="item.tempValue" class="umbral__input" />
+
+          <button @click="adjustValue(index, 1)" class="umbral__btn umbral__btn--plus">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
               <path d="M1 6H11M6 1V11" stroke="white" stroke-width="2" stroke-linecap="round" />
             </svg>
@@ -25,12 +28,12 @@
         </div>
 
         <div
-          class="umbral-progress"
+          class="umbral__progress"
           :style="{ width: calculatePercentage(item) + '%', backgroundColor: item.color }"
         ></div>
       </div>
 
-      <button @click="saveAllThresholds" class="umbral-save-btn">Guardar Umbrales</button>
+      <button @click="saveAllThresholds" class="umbral__save">Guardar Umbrales</button>
     </div>
   </div>
 </template>
@@ -174,22 +177,21 @@ export default {
 }
 </script>
 <style scoped>
-.umbral-container {
+.umbral {
   background: var(--color-bg-header);
   border-radius: 14px;
   padding: 12px;
   border-top: 3px solid var(--color-primary-dark);
-
   position: relative;
   overflow: hidden;
-  width: 100%; /* Ocupará el 100% del espacio asignado por el grid */
-  height: 100%; /* Ocupará el 100% del espacio asignado por el grid */
-  min-width: 190px; /* Ancho mínimo para mantener la legibilidad */
+  width: 100%;
+  height: 100%;
+  min-width: 190px;
   display: flex;
   flex-direction: column;
 }
 
-.umbral-container::before {
+.umbral::before {
   content: '';
   position: absolute;
   top: -50%;
@@ -200,7 +202,7 @@ export default {
   z-index: 0;
 }
 
-.umbral-content {
+.umbral__content {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -209,19 +211,18 @@ export default {
   height: 100%;
 }
 
-.umbral-item {
+.umbral__item {
   background: rgba(255, 255, 255, 0.05);
   border-radius: 10px;
   padding: 10px;
   position: relative;
   overflow: hidden;
-
   backdrop-filter: blur(4px);
   height: 100px;
   width: 100%;
 }
 
-.umbral-header {
+.umbral__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -229,25 +230,25 @@ export default {
   margin-bottom: 16px;
 }
 
-.umbral-label {
+.umbral__label {
   font-size: 0.75rem;
   color: var(--color-primary);
   font-weight: 500;
 }
 
-.umbral-display {
+.umbral__display {
   font-weight: 700;
   font-size: 1.5rem;
   color: var(--color-primary-dark);
 }
 
-.umbral-unit {
+.umbral__unit {
   font-size: 0.9rem;
   color: var(--color-primary);
   margin-left: 2px;
 }
 
-.umbral-controls {
+.umbral__controls {
   display: flex;
   gap: 8px;
   align-items: center;
@@ -255,7 +256,7 @@ export default {
   margin: -10px;
 }
 
-.umbral-input {
+.umbral__input {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid var(--color-primary-dark);
   border-radius: 6px;
@@ -267,11 +268,11 @@ export default {
   font-size: 0.85rem;
 }
 
-.umbral-input:focus {
+.umbral__input:focus {
   outline: none;
 }
 
-.umbral-round-btn {
+.umbral__btn {
   width: 28px;
   height: 28px;
   border-radius: 50%;
@@ -282,26 +283,24 @@ export default {
   transition: all 0.3s ease;
   padding: 0;
   border: none;
-
   background: var(--color-primary-dark);
   border: 1px solid var(--color-primary);
 }
 
-.umbral-round-btn:hover {
+.umbral__btn:hover {
   background: var(--color-primary);
-
   transform: scale(1.1);
 }
 
-.umbral-round-btn:active {
+.umbral__btn:active {
   transform: scale(0.95);
 }
 
-.umbral-round-btn svg {
+.umbral__btn svg {
   filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.8));
 }
 
-.umbral-progress {
+.umbral__progress {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -310,7 +309,7 @@ export default {
   transition: width 0.5s ease;
 }
 
-.umbral-save-btn {
+.umbral__save {
   background: var(--color-primary-dark);
   border: 1px solid var(--color-primary-dark);
   color: white;
@@ -323,40 +322,42 @@ export default {
   margin-top: auto;
 }
 
-.umbral-save-btn:hover {
+.umbral__save:hover {
   background: var(--color-primary);
   transform: scale(1.02);
 }
+
+/* --- Responsive --- */
 @media (max-width: 1200px) {
-  .umbral-container {
+  .umbral {
     min-width: 160px;
   }
 
-  .umbral-item {
+  .umbral__item {
     height: 90px;
     padding: 8px;
   }
 }
 
 @media (max-width: 768px) {
-  .umbral-container {
+  .umbral {
     width: 100%;
     height: auto;
     min-height: 220px;
   }
 
-  .umbral-content {
+  .umbral__content {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
   }
 
-  .umbral-item {
+  .umbral__item {
     width: calc(50% - 5px);
     height: 100px;
   }
 
-  .umbral-save-btn {
+  .umbral__save {
     width: 100%;
     margin-top: 10px;
   }

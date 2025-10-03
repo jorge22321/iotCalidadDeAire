@@ -1,11 +1,11 @@
 <!-- src/components/Header.vue -->
 <template>
-  <header class="main-header">
-    <div class="header-content">
+  <header class="header">
+    <div class="header__content">
       <!-- Botón Hamburguesa solo en móvil -->
-      <button class="menu" @click="sidebarStore.toggleCollapse">☰</button>
+      <button class="header__menu" @click="sidebarStore.toggleCollapse">☰</button>
 
-      <div class="header-actions">
+      <div class="header__actions">
         <ProfileDropdown :username="username" />
       </div>
     </div>
@@ -29,7 +29,7 @@ const sidebarStore = useSidebarStore()
 </script>
 
 <style scoped>
-.main-header {
+.header {
   height: 50px;
   background: var(--color-bg-header);
   position: sticky;
@@ -37,35 +37,32 @@ const sidebarStore = useSidebarStore()
   z-index: 90;
 }
 
-.header-content {
+.header__content {
   height: 100%;
   padding: 0 20px;
   display: flex;
-  justify-content: flex-end; /* Cambiamos a flex-end para alinear a la derecha */
+  justify-content: flex-end;
   align-items: center;
 }
 
-.page-title h2 {
-  color: var(--color-primary);
-  margin: 0;
-  font-size: 1rem;
-  font-weight: bold;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.header__menu {
+  display: none;
 }
-.menu {
-  display: none; /* Oculto por defecto, se muestra en móvil */
+
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 @media (max-width: 768px) {
-  .main-header {
+  .header {
     display: flex;
     height: 50px;
     padding: 0;
   }
 
-  .header-content {
+  .header__content {
     flex: 1;
     display: flex;
     justify-content: space-between; /* Toggle a la izq, perfil a la der */
@@ -73,8 +70,8 @@ const sidebarStore = useSidebarStore()
     padding: 0 15px 0 25px;
   }
 
-  .menu {
-    display: block; /* Visible en móvil */
+  .header__menu {
+    display: block;
     background: none;
     border: none;
     color: var(--color-primary);
@@ -84,20 +81,19 @@ const sidebarStore = useSidebarStore()
     transition: all 0.3s ease;
   }
 
+  .header__menu:hover {
+    color: var(--color-accent);
+    transform: scale(1.1);
+  }
+
   .username {
     display: none; /* Ocultar nombre en móviles */
   }
 }
-</style>
-html
-<!-- src/components/ProfileDropdown.vue - Parte responsive -->
-<style scoped>
-/* ... (estilos anteriores se mantienen) ... */
-
-/* Media queries para responsividad */
 @media (max-width: 768px) {
   .profile-trigger {
     padding: 6px 10px;
+    font-size: 0.9rem;
   }
 
   .dropdown-menu {
@@ -105,8 +101,16 @@ html
     top: 50px;
     right: 10px;
     left: 10px;
-    min-width: auto;
+    width: auto;
+    min-width: unset;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 255, 171, 0.25);
     z-index: 1000;
+  }
+
+  .dropdown-item {
+    padding: 12px 15px;
+    font-size: 0.95rem;
   }
 }
 </style>

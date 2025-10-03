@@ -1,7 +1,7 @@
 <!-- src/components/charts/BaseChart.vue -->
 <template>
-  <div class="base-chart-container">
-    <canvas ref="canvas"></canvas>
+  <div class="chart">
+    <canvas class="chart__canvas" ref="canvas"></canvas>
   </div>
 </template>
 
@@ -73,14 +73,14 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-.base-chart-container {
+.chart {
   position: relative;
   width: 100%;
   height: 100%;
   min-height: 200px;
 }
 
-.base-chart-container canvas {
+.chart__canvas {
   display: block; /* Elimina espacio extra debajo del canvas */
   width: 100% !important;
   height: 100% !important;

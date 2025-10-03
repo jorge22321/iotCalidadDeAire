@@ -1,7 +1,7 @@
-//src/views/DevicesView.vue
+<!-- src/views/DevicesView.vue -->
 <template>
-  <div class="devices-content">
-    <div class="users-dashboard">
+  <div class="devices">
+    <div class="devices__dashboard">
       <!-- Componente de Filtros -->
       <UserFilters
         v-model:search="searchQuery"
@@ -34,7 +34,7 @@
       @close="showUserModal = false"
       @submit="handleUserSubmit"
     />
-    <!-- Modal para agregar/editar usuario -->
+
     <!-- Modal de confirmación para eliminar -->
     <ConfirmModal
       :show="showDeleteModal"
@@ -246,9 +246,8 @@ onMounted(() => {
   fetchUsers()
 })
 </script>
-
 <style scoped>
-.devices-content {
+.devices {
   padding: 20px;
   height: 100%;
   width: 100%;
@@ -258,7 +257,7 @@ onMounted(() => {
   flex-direction: column;
 }
 
-.users-dashboard {
+.devices__dashboard {
   background: rgba(24, 28, 36, 0.8);
   border-radius: 12px;
   padding: 20px;
@@ -271,18 +270,19 @@ onMounted(() => {
   flex-direction: column;
   gap: 20px;
 }
+
 @media (max-width: 768px) {
-  .devices-content {
+  .devices {
     padding: 10px;
   }
 
-  .users-dashboard {
+  .devices__dashboard {
     padding: 15px;
     gap: 15px;
   }
 
   /* Ajustar tabla en móviles */
-  .users-dashboard table {
+  .devices__dashboard table {
     font-size: 0.9rem;
     display: block;
     overflow-x: auto;
@@ -290,28 +290,28 @@ onMounted(() => {
     border-collapse: collapse;
   }
 
-  .users-dashboard th,
-  .users-dashboard td {
+  .devices__dashboard th,
+  .devices__dashboard td {
     padding: 8px 10px;
   }
 
   /* Filtros en columna */
-  .users-dashboard .filters,
-  .users-dashboard .user-filters {
+  .devices__dashboard .filters,
+  .devices__dashboard .user-filters {
     flex-direction: column;
     align-items: stretch;
     gap: 10px;
   }
 
   /* Controles de paginación */
-  .users-dashboard .pagination-controls {
+  .devices__dashboard .pagination-controls {
     flex-direction: column;
     align-items: center;
     gap: 10px;
   }
 
   /* Modal ocupa toda la pantalla */
-  .users-dashboard .modal {
+  .devices__dashboard .modal {
     width: 95% !important;
     max-width: none;
     height: auto;

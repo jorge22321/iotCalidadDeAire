@@ -1,12 +1,12 @@
 <!-- src/components/PaginationControls.vue -->
 <template>
-  <div class="footer-controls">
-    <div class="items-per-page-selector">
+  <div class="pagination">
+    <div class="pagination__selector">
       <label for="items-per-page">Mostrar:</label>
       <select
         id="items-per-page"
         v-model="localItemsPerPage"
-        class="filter-select"
+        class="pagination__select"
         @change="emitPaginationChange"
       >
         <option :value="5">5</option>
@@ -15,12 +15,20 @@
         <option :value="50">50</option>
       </select>
     </div>
-    <div class="pagination-controls">
-      <button @click="emit('update:currentPage', currentPage - 1)" :disabled="currentPage === 1">
+
+    <div class="pagination__controls">
+      <button
+        class="pagination__btn"
+        @click="emit('update:currentPage', currentPage - 1)"
+        :disabled="currentPage === 1"
+      >
         <font-awesome-icon :icon="faChevronLeft" />
       </button>
-      <span>Página {{ currentPage }} de {{ totalPages }}</span>
+
+      <span class="pagination__info">Página {{ currentPage }} de {{ totalPages }}</span>
+
       <button
+        class="pagination__btn"
         @click="emit('update:currentPage', currentPage + 1)"
         :disabled="currentPage === totalPages"
       >
@@ -59,7 +67,7 @@ watch(
 </script>
 
 <style scoped>
-.footer-controls {
+.pagination {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -68,55 +76,62 @@ watch(
   border-top: 1px solid var(--color-primary-dark);
 }
 
-.items-per-page-selector {
+.pagination__selector {
   display: flex;
   align-items: center;
   gap: 10px;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
 }
 
-.pagination-controls {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
-}
-
-.pagination-controls button {
-  background: var(--color-bg-header);
-  border: 1px solid var(--color-primary-dark);
-  color: var(--color-primary);
+.pagination__select {
   padding: 8px 12px;
-  border-radius: 5px;
+  border-radius: 6px;
+  border: 1px solid var(--color-primary-dark);
+  background: var(--color-bg-header);
+  color: var(--color-text-main);
   cursor: pointer;
+  font-size: 0.9rem;
   transition: all 0.3s ease;
 }
 
-.pagination-controls button:disabled {
+.pagination__select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 6px rgba(0, 224, 255, 0.3);
+}
+
+.pagination__controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.pagination__btn {
+  background: var(--color-bg-header);
+  border: 1px solid var(--color-primary-dark);
+  color: var(--color-primary);
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.pagination__btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-.pagination-controls button:hover:not(:disabled) {
+.pagination__btn:hover:not(:disabled) {
   background: var(--color-primary-dark);
   color: var(--color-text-main);
 }
 
-.pagination-controls span {
+.pagination__info {
   color: var(--color-text-secondary);
-}
-
-.filter-select {
-  padding: 10px 15px;
-  border-radius: 8px;
-  border: 1px solid var(--color-primary-dark);
-  background: var(--color-bg-header);
-  color: var(--color-text-main);
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.filter-select:focus {
-  outline: none;
-  border-color: var(--color-primary);
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 </style>

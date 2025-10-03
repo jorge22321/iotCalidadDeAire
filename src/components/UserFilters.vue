@@ -1,24 +1,28 @@
 <!-- src/components/UserFilters.vue -->
 <template>
-  <div class="users-controls">
-    <div class="search-container">
-      <div class="search-box">
-        <font-awesome-icon :icon="faMagnifyingGlass" class="search-icon" />
+  <div class="user-filters">
+    <div class="user-filters__search">
+      <div class="user-filters__search-box">
+        <font-awesome-icon :icon="faMagnifyingGlass" class="user-filters__icon" />
         <input
           v-model="searchQuery"
           type="text"
           placeholder="Buscar usuarios..."
-          class="search-input"
+          class="user-filters__input"
         />
       </div>
-      <router-link to="/app/users/create" class="add-user-btn">
+      <router-link to="/app/users/create" class="user-filters__add-btn">
         <font-awesome-icon :icon="faPlus" />
         <span>Agregar Usuario</span>
       </router-link>
     </div>
 
-    <div class="filter-controls">
-      <select v-model="roleFilter" class="filter-select" @change="emit('update:role', roleFilter)">
+    <div class="user-filters__controls">
+      <select
+        v-model="roleFilter"
+        class="user-filters__select"
+        @change="emit('update:role', roleFilter)"
+      >
         <option value="">Todos los roles</option>
         <option value="administrador">Administrador</option>
         <option value="usuario">Usuario</option>
@@ -26,7 +30,7 @@
       </select>
       <select
         v-model="statusFilter"
-        class="filter-select"
+        class="user-filters__select"
         @change="emit('update:status', statusFilter)"
       >
         <option value="">Todos los estados</option>
@@ -56,8 +60,8 @@ watch(searchQuery, (newValue) => {
 </script>
 
 <style scoped>
-/* Copiar los estilos relevantes del original */
-.users-controls {
+/* Bloque principal */
+.user-filters {
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
@@ -65,27 +69,28 @@ watch(searchQuery, (newValue) => {
   align-items: center;
 }
 
-.search-container {
+/* Search */
+.user-filters__search {
   display: flex;
   align-items: center;
   gap: 15px;
   flex-grow: 1;
 }
 
-.search-box {
+.user-filters__search-box {
   position: relative;
   display: flex;
   align-items: center;
   flex-grow: 1;
 }
 
-.search-icon {
+.user-filters__icon {
   position: absolute;
   left: 12px;
   color: var(--color-primary);
 }
 
-.search-input {
+.user-filters__input {
   padding: 10px 15px 10px 40px;
   border-radius: 8px;
   border: 1px solid var(--color-primary-dark);
@@ -95,13 +100,14 @@ watch(searchQuery, (newValue) => {
   transition: all 0.3s ease;
 }
 
-.search-input:focus {
+.user-filters__input:focus {
   outline: none;
   border-color: var(--color-primary);
   box-shadow: 0 0 0 2px rgba(0, 255, 171, 0.2);
 }
 
-.add-user-btn {
+/* Add button */
+.user-filters__add-btn {
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
   color: var(--color-link-hover);
   border: none;
@@ -117,17 +123,18 @@ watch(searchQuery, (newValue) => {
   white-space: nowrap;
 }
 
-.add-user-btn:hover {
+.user-filters__add-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(0, 224, 255, 0.4);
 }
 
-.filter-controls {
+/* Filters */
+.user-filters__controls {
   display: flex;
   gap: 10px;
 }
 
-.filter-select {
+.user-filters__select {
   padding: 10px 15px;
   border-radius: 8px;
   border: 1px solid var(--color-primary-dark);
@@ -137,7 +144,7 @@ watch(searchQuery, (newValue) => {
   transition: all 0.3s ease;
 }
 
-.filter-select:focus {
+.user-filters__select:focus {
   outline: none;
   border-color: var(--color-primary);
 }

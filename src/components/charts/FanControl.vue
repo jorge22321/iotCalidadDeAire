@@ -139,7 +139,6 @@ export default {
      */
     async sendFanCommand(command) {
       try {
-        // 🚀 Enviar orden real al backend
         const response = await fetch('/api/control-ventilador', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -148,9 +147,9 @@ export default {
 
         if (!response.ok) throw new Error('Error al enviar comando')
 
-        // ✅ Ya NO tocamos buttonOnActive ni buttonOffActive aquí
-        // El backend emitirá `fanStatus` y `buttonStatus` por WebSocket,
-        // y allí se actualizará todo de forma sincronizada
+        // 🔹 Actualizar botones en el frontend
+        this.buttonOnActive = command
+        this.buttonOffActive = !command
       } catch (err) {
         console.error('❌ Error enviando comando:', err)
       }

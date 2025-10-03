@@ -1,6 +1,6 @@
 // backend/controllers/iotController.js
 import { mqttService } from '../services/mqtt.js'
-import { broadcast } from '../services/websocket.js'
+import { broadcast, updateButtonStatus } from '../services/websocket.js'
 
 /* ============================================================
    CONTROLADOR IoT: Maneja ventilador, modo y umbrales
@@ -27,7 +27,13 @@ export const controlVentilador = (req, res) => {
         return res.status(500).json({ error: 'Error al enviar comando al ventilador' })
       }
 
-      // Avisar a todos los clientes
+      // 🔹 Actualizar estado de los botones mediante WebSocket
+      updateButtonStatus({
+        onStatus: ventilador,
+        offStatus: !ventilador,
+      })
+
+      // 🔹 Avisar a todos los clientes sobre el ventilador
       broadcast('fanStatus', { status: ventilador })
 
       res.status(200).json({

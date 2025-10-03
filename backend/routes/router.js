@@ -33,7 +33,7 @@ router.get('/temperature', getTemperatureData)
 router.get('/pressure', getPressureData)
 
 // IoT Control
-router.post('/control', controlVentilador)
+router.post('/control-ventilador', controlVentilador)
 router.get('/status', getFanStatus)
 router.post('/mode', controlModo)
 router.post('/umbrales', updateThresholds)

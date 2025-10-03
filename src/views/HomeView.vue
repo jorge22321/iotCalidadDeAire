@@ -1,19 +1,28 @@
 <!-- src/views/HomeView.vue -->
+
 <template>
-  <div class="home-full-bg">
-    <header class="main-header">
-      <div class="logo-area">
-        <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="36" height="36" />
-        <span class="brand">IoT App</span>
+  <div class="home">
+    <header class="home__header">
+      <div class="home__logo">
+        <img alt="Vue logo" class="home__logo-img" src="@/assets/logo.svg" width="36" height="36" />
+        <span class="home__brand">IoT App</span>
       </div>
 
-      <nav class="nav-links">
-        <a href="#" @click.prevent="setVista('presentacion')" class="home-link">Home</a>
-        <a href="#" @click.prevent="setVista('login')" class="login-link">Iniciar sesión</a>
+      <nav class="home__nav">
+        <a
+          href="#"
+          @click.prevent="setVista('presentacion')"
+          class="home__link home__link--primary"
+        >
+          Home
+        </a>
+        <a href="#" @click.prevent="setVista('login')" class="home__link home__link--secondary">
+          Iniciar sesión
+        </a>
       </nav>
     </header>
 
-    <main class="home-content">
+    <main class="home__content">
       <Presentacion v-if="vista === 'presentacion'" />
       <LoginForm v-if="vista === 'login'" />
     </main>
@@ -32,7 +41,7 @@ function setVista(nuevaVista) {
 }
 </script>
 <style scoped>
-.home-full-bg {
+.home {
   position: fixed;
   inset: 0;
   min-height: 100vh;
@@ -44,17 +53,14 @@ function setVista(nuevaVista) {
   );
   display: flex;
   flex-direction: column;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
   overflow-x: hidden;
 }
 
-.main-header {
+/* --- HEADER --- */
+.home__header {
   width: 100%;
   height: 64px;
   background-color: var(--color-bg-header);
-
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -62,22 +68,20 @@ function setVista(nuevaVista) {
   position: sticky;
   top: 0;
   z-index: 10;
-  box-sizing: border-box;
 }
 
-.logo-area {
+.home__logo {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.logo {
-  display: block;
+.home__logo-img {
   width: 32px;
   height: 32px;
 }
 
-.brand {
+.home__brand {
   font-size: 1.2rem;
   font-weight: 700;
   color: var(--color-primary);
@@ -85,13 +89,13 @@ function setVista(nuevaVista) {
   text-shadow: 0 0 2px var(--color-primary-dark);
 }
 
-.nav-links {
+/* --- NAVIGATION --- */
+.home__nav {
   display: flex;
   gap: 24px;
 }
 
-.nav-links a {
-  color: var(--color-text-main);
+.home__link {
   text-decoration: none;
   font-weight: 500;
   font-size: 1rem;
@@ -102,22 +106,28 @@ function setVista(nuevaVista) {
     color 0.18s,
     box-shadow 0.18s;
 }
-.nav-links .login-link {
+
+.home__link--primary {
+  color: var(--color-text-main);
+}
+
+.home__link--primary:hover {
+  background-color: var(--color-bg-header);
+  color: var(--color-primary);
+}
+
+.home__link--secondary {
   background: var(--color-primary);
   color: var(--color-link-hover);
   box-shadow: 0 0 3px var(--color-primary);
 }
-.nav-links .home-link:hover {
-  background-color: var(--color-bg-header);
-  color: var(--color-primary);
-}
-.nav-links .login-link:hover {
-  background: var(--color-primary);
-  color: var(--color-link-hover);
+
+.home__link--secondary:hover {
   box-shadow: 0 0 23px var(--color-primary);
 }
 
-.home-content {
+/* --- CONTENT --- */
+.home__content {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -126,11 +136,11 @@ function setVista(nuevaVista) {
   min-height: calc(100vh - 50px);
   width: 100%;
   max-width: 1365px;
-  margin: 0 auto 0 auto;
+  margin: 0 auto;
   padding: 36px 20px;
-  box-shadow: var(--color-shadow);
   background: var(--color-bg-card);
-  box-sizing: border-box;
+  box-shadow: var(--color-shadow);
   color: var(--color-text-main);
+  box-sizing: border-box;
 }
 </style>

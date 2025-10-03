@@ -1,11 +1,10 @@
 <!-- src/components/charts/TemperatureGauge.vue -->
 <template>
-  <div class="chart-wrapper temperature">
+  <div class="chart chart--temperature">
     <BaseChart :config="chartConfig" />
-    <div class="current-value">{{ currentTemp }}°C</div>
+    <div class="chart--temperature__value">{{ currentTemp }}°C</div>
   </div>
 </template>
-
 <script setup>
 import BaseChart from './BaseChart.vue'
 import { ref, onMounted, onBeforeUnmount } from 'vue'
@@ -77,24 +76,21 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-.chart-wrapper.temperature {
-  background: var(--color-bg-header); /* Fondo con tono amarillento */
+.chart--temperature {
+  background: var(--color-bg-header);
   border-radius: 16px;
   padding: 20px;
-
   position: relative;
-  border-top: 3px solid #00ffab; /* Borde superior amarillo */
+  border-top: 3px solid #00ffab;
 }
 
-.current-value {
+.chart--temperature__value {
   position: absolute;
   top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 2rem;
   font-weight: bold;
-  color: #00ffab; /* Amarillo neón */
+  color: #00ffab;
 }
-
-/* Efecto de brillo al pasar el ratón */
 </style>

@@ -1,13 +1,13 @@
-<!-- src/views/DevicesView.vue -->
+<!-- src/views/DashboardView.vue -->
 <template>
-  <div class="dashboard-content">
-    <div class="grid-container">
-      <PressureChart class="chart-item pressure" />
-      <TemperatureGauge class="chart-item temperature" />
-      <HumidityChart class="chart-item humidity" />
-      <CO2Chart class="chart-item co2" />
-      <UmbralComponent class="chart-item umbral" />
-      <FanControl class="chart-item fan-control" />
+  <div class="dashboard">
+    <div class="dashboard__grid">
+      <PressureChart class="dashboard__chart dashboard__chart--pressure" />
+      <TemperatureGauge class="dashboard__chart dashboard__chart--temperature" />
+      <HumidityChart class="dashboard__chart dashboard__chart--humidity" />
+      <CO2Chart class="dashboard__chart dashboard__chart--co2" />
+      <UmbralComponent class="dashboard__chart dashboard__chart--umbral" />
+      <FanControl class="dashboard__chart dashboard__chart--fan-control" />
     </div>
   </div>
 </template>
@@ -22,14 +22,14 @@ import UmbralComponent from '@/components/charts/UmbralComponent.vue'
 </script>
 
 <style scoped>
-.dashboard-content {
+.dashboard {
   height: calc(100vh - 50px);
   overflow-y: auto;
   padding: 10px;
   background: var(--color-bg-gradient-end);
 }
 
-.grid-container {
+.dashboard__grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-auto-rows: minmax(250px, auto);
@@ -42,48 +42,47 @@ import UmbralComponent from '@/components/charts/UmbralComponent.vue'
     'G4 G4 G5 G6 G6 G6';
 }
 
-.chart-item {
+.dashboard__chart {
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   background: var(--color-bg-header);
 }
 
-/* Asignación de áreas */
-.pressure {
+/* Áreas */
+.dashboard__chart--pressure {
   grid-area: G1;
   height: 257px;
 }
 
-.temperature {
+.dashboard__chart--temperature {
   grid-area: G2;
   height: 257px;
 }
 
-.humidity {
+.dashboard__chart--humidity {
   grid-area: G3;
   height: 257px;
 }
 
-.co2 {
+.dashboard__chart--co2 {
   grid-area: G4;
   height: 257px;
 }
 
-.umbral {
+.dashboard__chart--umbral {
   grid-area: G5;
   height: 257px;
 }
 
-.fan-control {
+.dashboard__chart--fan-control {
   grid-area: G6;
   height: 257px;
-  /* 1.5 celdas */
 }
 
-/* Ajustes responsivos */
+/* Responsive */
 @media (max-width: 1200px) {
-  .grid-container {
+  .dashboard__grid {
     grid-template-columns: repeat(4, 1fr);
     grid-template-areas:
       'G1 G1 G2 G2'
@@ -93,13 +92,13 @@ import UmbralComponent from '@/components/charts/UmbralComponent.vue'
 }
 
 @media (max-width: 768px) {
-  .dashboard-content {
+  .dashboard {
     padding: 15px;
     height: auto;
     min-height: calc(100vh - 50px);
   }
 
-  .grid-container {
+  .dashboard__grid {
     grid-template-columns: 1fr;
     grid-auto-rows: minmax(200px, auto);
     gap: 15px;
@@ -112,7 +111,7 @@ import UmbralComponent from '@/components/charts/UmbralComponent.vue'
       'G6';
   }
 
-  .chart-item {
+  .dashboard__chart {
     border-radius: 10px;
     height: auto !important;
     min-height: 220px;
@@ -120,15 +119,15 @@ import UmbralComponent from '@/components/charts/UmbralComponent.vue'
 }
 
 @media (max-width: 480px) {
-  .dashboard-content {
+  .dashboard {
     padding: 10px;
   }
 
-  .grid-container {
+  .dashboard__grid {
     gap: 12px;
   }
 
-  .chart-item {
+  .dashboard__chart {
     border-radius: 8px;
     min-height: 200px;
   }
