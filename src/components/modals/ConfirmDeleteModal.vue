@@ -1,18 +1,17 @@
-<!-- src/components/ConfirmModal.vue -->
 <template>
-  <div v-if="show" class="modal-overlay" @click.self="closeModal">
-    <div class="confirm-modal">
-      <div class="modal-header">
-        <h3>{{ title }}</h3>
-        <button class="close-modal" @click="closeModal" aria-label="Cerrar modal">
+  <div v-if="show" class="modal" @click.self="closeModal">
+    <div class="modal__container modal__container--confirm">
+      <div class="modal__header">
+        <h3 class="modal__title">{{ title }}</h3>
+        <button class="modal__close" @click="closeModal" aria-label="Cerrar modal">
           <font-awesome-icon :icon="faXmark" />
         </button>
       </div>
-      <div class="modal-body">
-        <p>{{ message }}</p>
-        <div class="modal-actions">
-          <button class="cancel-btn" @click="closeModal">Cancelar</button>
-          <button class="delete-confirm-btn" @click="confirmDelete">Eliminar</button>
+      <div class="modal__body">
+        <p class="modal__message">{{ message }}</p>
+        <div class="modal__actions">
+          <button class="modal__btn modal__btn--secondary" @click="closeModal">Cancelar</button>
+          <button class="modal__btn modal__btn--danger" @click="confirmDelete">Eliminar</button>
         </div>
       </div>
     </div>
@@ -39,7 +38,8 @@ const confirmDelete = () => emit('confirm')
 </script>
 
 <style scoped>
-.modal-overlay {
+/* Overlay */
+.modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -52,7 +52,8 @@ const confirmDelete = () => emit('confirm')
   z-index: 1000;
 }
 
-.confirm-modal {
+/* Container */
+.modal__container {
   background: linear-gradient(to bottom right, var(--color-bg-header), var(--color-bg-card));
   border: 1px solid var(--color-primary);
   box-shadow: 0 8px 32px var(--color-shadow);
@@ -63,7 +64,8 @@ const confirmDelete = () => emit('confirm')
   overflow-y: auto;
 }
 
-.modal-header {
+/* Header */
+.modal__header {
   padding: 20px;
   border-bottom: 1px solid var(--color-primary-dark);
   display: flex;
@@ -71,12 +73,12 @@ const confirmDelete = () => emit('confirm')
   align-items: center;
 }
 
-.modal-header h3 {
+.modal__title {
   color: var(--color-primary);
   margin: 0;
 }
 
-.close-modal {
+.modal__close {
   background: none;
   border: none;
   color: var(--color-text-secondary);
@@ -85,27 +87,29 @@ const confirmDelete = () => emit('confirm')
   transition: all 0.3s ease;
 }
 
-.close-modal:hover {
+.modal__close:hover {
   color: var(--color-primary);
 }
 
-.modal-body {
+/* Body */
+.modal__body {
   padding: 20px;
 }
 
-.modal-body p {
+.modal__message {
   margin-bottom: 20px;
   color: var(--color-text-main);
 }
 
-.modal-actions {
+/* Actions */
+.modal__actions {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
 }
 
-.cancel-btn,
-.delete-confirm-btn {
+/* Botones */
+.modal__btn {
   padding: 10px 20px;
   border-radius: 8px;
   font-weight: 600;
@@ -113,24 +117,26 @@ const confirmDelete = () => emit('confirm')
   transition: all 0.3s ease;
 }
 
-.cancel-btn {
+/* Botón cancelar */
+.modal__btn--secondary {
   background: var(--color-bg-header);
   border: 1px solid var(--color-primary-dark);
   color: var(--color-text-secondary);
 }
 
-.cancel-btn:hover {
+.modal__btn--secondary:hover {
   background: var(--color-primary-dark);
   color: var(--color-text-main);
 }
 
-.delete-confirm-btn {
+/* Botón eliminar */
+.modal__btn--danger {
   background: linear-gradient(90deg, #f44336 0%, #ff5252 100%);
   border: none;
   color: white;
 }
 
-.delete-confirm-btn:hover {
+.modal__btn--danger:hover {
   background: linear-gradient(90deg, #ff5252 0%, #f44336 100%);
   box-shadow: 0 0 10px rgba(244, 67, 54, 0.5);
 }

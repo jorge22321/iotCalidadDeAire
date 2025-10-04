@@ -1,11 +1,11 @@
 <!-- src/components/forms/RoleSelector.vue -->
 <template>
-  <div class="form-group">
+  <div class="role-selector">
     <select
       id="role"
       :value="modelValue"
       @change="$emit('update:modelValue', $event.target.value)"
-      class="form-input"
+      class="role-selector__input"
     >
       <option value="">Sin rol</option>
       <option v-for="role in roles" :key="role.id" :value="role.id">
@@ -14,7 +14,6 @@
     </select>
   </div>
 </template>
-
 <script setup>
 import { ref, onMounted } from 'vue'
 
@@ -42,18 +41,22 @@ onMounted(fetchRoles)
 </script>
 
 <style scoped>
-/* Estilos adaptados de UserModal.vue para consistencia */
-.form-group {
+/* Contenedor */
+.role-selector {
   margin-bottom: 1.25rem;
 }
-.form-label {
+
+/* Label opcional (si se añade en el futuro) */
+.role-selector__label {
   display: block;
   margin-bottom: 0.5rem;
   color: var(--color-primary);
   font-weight: 600;
   font-size: 0.875rem;
 }
-.form-input {
+
+/* Input */
+.role-selector__input {
   width: 100%;
   padding: 0.65rem 1rem;
   border-radius: 8px;
@@ -62,7 +65,8 @@ onMounted(fetchRoles)
   color: var(--color-text-main);
   transition: all 0.3s ease;
 }
-.form-input:focus {
+
+.role-selector__input:focus {
   outline: none;
   border-color: var(--color-primary);
   box-shadow: 0 0 0 2px rgba(0, 255, 171, 0.2);

@@ -1,37 +1,42 @@
 <template>
-  <div v-if="show" class="modal-overlay" @click.self="closeModal">
-    <div class="edit-modal">
-      <div class="modal-header">
-        <h3>{{ editing ? 'Editar Usuario' : 'Nuevo Usuario' }}</h3>
-        <button class="close-modal" @click="closeModal" aria-label="Cerrar modal">
+  <div v-if="show" class="modal" @click.self="closeModal">
+    <div class="modal__container modal__container--edit">
+      <div class="modal__header">
+        <h3 class="modal__title">
+          {{ editing ? 'Editar Usuario' : 'Nuevo Usuario' }}
+        </h3>
+        <button class="modal__close" @click="closeModal" aria-label="Cerrar modal">
           <font-awesome-icon :icon="faXmark" />
         </button>
       </div>
-      <div class="modal-body">
-        <form @submit.prevent="handleSubmit">
-          <div class="form-group">
-            <label for="role">Rol</label>
-            <select id="role" v-model="formData.role" required class="form-input">
+
+      <div class="modal__body">
+        <form @submit.prevent="handleSubmit" class="modal__form">
+          <div class="modal__form-group">
+            <label for="role" class="modal__label">Rol</label>
+            <select id="role" v-model="formData.role" required class="modal__input">
               <option value="admin">Administrador</option>
               <option value="user">Usuario</option>
               <option value="guest">Invitado</option>
             </select>
           </div>
 
-          <div v-if="!editing" class="form-group">
-            <label for="password">Contraseña</label>
+          <div v-if="!editing" class="modal__form-group">
+            <label for="password" class="modal__label">Contraseña</label>
             <input
               id="password"
               v-model="formData.password"
               type="password"
               :required="!editing"
-              class="form-input"
+              class="modal__input"
             />
           </div>
 
-          <div class="modal-actions">
-            <button type="button" class="cancel-btn" @click="closeModal">Cancelar</button>
-            <button type="submit" class="save-btn">
+          <div class="modal__actions">
+            <button type="button" class="modal__btn modal__btn--secondary" @click="closeModal">
+              Cancelar
+            </button>
+            <button type="submit" class="modal__btn modal__btn--primary">
               {{ editing ? 'Guardar Cambios' : 'Crear Usuario' }}
             </button>
           </div>
@@ -90,7 +95,8 @@ const handleSubmit = () => {
 </script>
 
 <style scoped>
-.modal-overlay {
+/* Overlay */
+.modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -102,7 +108,9 @@ const handleSubmit = () => {
   justify-content: center;
   z-index: 1000;
 }
-.edit-modal {
+
+/* Container */
+.modal__container {
   background: linear-gradient(to bottom right, var(--color-bg-header), var(--color-bg-card));
   border: 1px solid var(--color-primary);
   box-shadow: 0 8px 32px var(--color-shadow);
@@ -111,7 +119,8 @@ const handleSubmit = () => {
   max-width: 500px;
 }
 
-.modal-header {
+/* Header */
+.modal__header {
   padding: 20px;
   border-bottom: 1px solid var(--color-primary-dark);
   display: flex;
@@ -119,12 +128,12 @@ const handleSubmit = () => {
   align-items: center;
 }
 
-.modal-header h3 {
+.modal__title {
   color: var(--color-primary);
   margin: 0;
 }
 
-.close-modal {
+.modal__close {
   background: none;
   border: none;
   color: var(--color-text-secondary);
@@ -133,25 +142,27 @@ const handleSubmit = () => {
   transition: all 0.3s ease;
 }
 
-.close-modal:hover {
+.modal__close:hover {
   color: var(--color-primary);
 }
 
-.modal-body {
+/* Body */
+.modal__body {
   padding: 20px;
 }
 
-.form-group {
+/* Form */
+.modal__form-group {
   margin-bottom: 20px;
 }
 
-.form-group label {
+.modal__label {
   display: block;
   margin-bottom: 8px;
   color: var(--color-text-secondary);
 }
 
-.form-input {
+.modal__input {
   width: 100%;
   padding: 10px;
   border-radius: 8px;
@@ -161,45 +172,49 @@ const handleSubmit = () => {
   transition: all 0.3s ease;
 }
 
-.form-input:focus {
+.modal__input:focus {
   outline: none;
   border-color: var(--color-primary);
   box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
 }
 
-.modal-actions {
+/* Actions */
+.modal__actions {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
   margin-top: 20px;
 }
 
-.cancel-btn {
+/* Botones */
+.modal__btn {
   padding: 10px 20px;
   border-radius: 8px;
-  background: var(--color-bg-header);
-  border: 1px solid var(--color-primary-dark);
-  color: var(--color-text-secondary);
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
-.cancel-btn:hover {
+/* Cancelar */
+.modal__btn--secondary {
+  background: var(--color-bg-header);
+  border: 1px solid var(--color-primary-dark);
+  color: var(--color-text-secondary);
+}
+
+.modal__btn--secondary:hover {
   background: var(--color-primary-dark);
   color: var(--color-text-main);
 }
 
-.save-btn {
-  padding: 10px 20px;
-  border-radius: 8px;
+/* Guardar */
+.modal__btn--primary {
   background: linear-gradient(90deg, var(--color-primary) 0%, #4a90e2 100%);
   border: none;
   color: white;
-  cursor: pointer;
-  transition: all 0.3s ease;
 }
 
-.save-btn:hover {
+.modal__btn--primary:hover {
   background: linear-gradient(90deg, #4a90e2 0%, var(--color-primary) 100%);
   box-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
 }
