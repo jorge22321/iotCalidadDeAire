@@ -248,7 +248,7 @@ onMounted(() => {
 </script>
 <style scoped>
 .devices {
-  padding: 20px;
+  padding: 10px;
   height: 100%;
   width: 100%;
   color: var(--color-text-main);
@@ -260,7 +260,7 @@ onMounted(() => {
 .devices__dashboard {
   background: rgba(24, 28, 36, 0.8);
   border-radius: 12px;
-  padding: 20px;
+  padding: 15px 15px 15px 10px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(5px);
   border: 1px solid var(--color-primary-dark);
@@ -268,7 +268,7 @@ onMounted(() => {
   min-height: 0;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
 }
 
 @media (max-width: 768px) {

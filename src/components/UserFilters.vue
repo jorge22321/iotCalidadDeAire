@@ -91,7 +91,7 @@ watch(searchQuery, (newValue) => {
 }
 
 .user-filters__input {
-  padding: 10px 15px 10px 40px;
+  padding: 7px 15px 7px 40px;
   border-radius: 8px;
   border: 1px solid var(--color-primary-dark);
   background: var(--color-bg-header);
@@ -112,8 +112,9 @@ watch(searchQuery, (newValue) => {
   color: var(--color-link-hover);
   border: none;
   border-radius: 8px;
-  padding: 10px 15px;
+  padding: 5px 15px;
   font-weight: 600;
+  font-size: 0.95rem;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -135,13 +136,14 @@ watch(searchQuery, (newValue) => {
 }
 
 .user-filters__select {
-  padding: 10px 15px;
+  padding: 5px 15px;
   border-radius: 8px;
   border: 1px solid var(--color-primary-dark);
   background: var(--color-bg-header);
   color: var(--color-text-main);
   cursor: pointer;
   transition: all 0.3s ease;
+  font-size: 0.8rem;
 }
 
 .user-filters__select:focus {

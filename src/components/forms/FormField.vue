@@ -44,21 +44,21 @@ defineEmits(['update:modelValue'])
 <style scoped>
 /* Contenedor del campo */
 .form-field {
-  margin-bottom: 0.5rem; /* Espacio reducido para dar cabida al error */
+  margin-bottom: 0.5rem;
 }
 
 /* Label */
 .form-field__label {
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
   color: var(--color-primary);
-  font-weight: 600;
-  font-size: 0.875rem;
+  font-weight: 500;
+  font-size: 0.77rem;
   transition: color 0.3s ease;
 }
 
 .form-field__label--error {
-  color: #f87171; /* Rojo claro para errores */
+  color: #f87171;
 }
 
 /* Input wrapper */
@@ -69,7 +69,7 @@ defineEmits(['update:modelValue'])
 /* Icono dentro del input */
 .form-field__icon {
   position: absolute;
-  left: 12px;
+  left: 10px;
   top: 50%;
   transform: translateY(-50%);
   color: var(--color-primary-dark);
@@ -79,16 +79,25 @@ defineEmits(['update:modelValue'])
 /* Input */
 .form-field__input {
   width: 100%;
-  padding: 0.65rem 1rem;
+  padding: 0.45rem 0.7rem;
   border-radius: 8px;
   border: 1px solid var(--color-primary-dark);
   background: var(--color-bg-header);
   color: var(--color-text-main);
+  /* ✅ CAMBIO: Letra al escribir aún más pequeña */
+  font-size: 0.75rem;
   transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+/* ✅ NUEVO: Placeholder más pequeño y con color sutil */
+.form-field__input::placeholder {
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
 }
 
 .form-field__input--with-icon {
-  padding-left: 40px;
+  padding-left: 2.2rem;
 }
 
 .form-field__input:focus {
@@ -110,6 +119,6 @@ defineEmits(['update:modelValue'])
   color: #f87171;
   font-size: 0.75rem;
   margin-top: 0.25rem;
-  height: 1rem; /* Para evitar salto en el layout */
+  height: 1rem;
 }
 </style>

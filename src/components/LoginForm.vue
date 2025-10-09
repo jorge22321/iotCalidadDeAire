@@ -2,7 +2,7 @@
 <template>
   <form class="login-form" @submit.prevent="login">
     <div v-if="error" class="login-form__error">{{ error }}</div>
-    <h2 class="login-form__title">Iniciar sesión</h2>
+    <h3 class="login-form__title">Iniciar sesión</h3>
 
     <div class="login-form__group">
       <input
@@ -128,7 +128,7 @@ async function login() {
   border-left: none;
   border-top: none;
   border-right: none;
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   background: var(--color-bg-header);
   color: var(--color-primary);
   transition:
@@ -155,7 +155,7 @@ async function login() {
   border: none;
   border-radius: 8px;
   padding: 12px 0;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   margin-top: 30px;

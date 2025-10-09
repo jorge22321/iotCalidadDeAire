@@ -1,6 +1,6 @@
-<!-- src/components/charts/CO2Chart.vue -->
 <template>
   <div class="chart chart--co2">
+    <div v-if="showAlert" class="chart--co2__alert">ALERTA: Nivel alto de CO2</div>
     <BaseChart :config="chartConfig" />
   </div>
 </template>
@@ -24,11 +24,12 @@ const chartConfig = ref({
         data: [],
         borderColor: '#00ffab',
         backgroundColor: 'rgba(255, 165, 0, 0.1)',
-        borderWidth: 3,
+        borderWidth: 2, // ✅ Reducido
         tension: 0.3,
+        // ✅ CAMBIO: Puntos de datos más pequeños
         pointBackgroundColor: (ctx) => (ctx.raw > 800 ? '#ff0000' : '#FFA500'),
-        pointRadius: (ctx) => (ctx.raw > 800 ? 6 : 4),
-        pointHoverRadius: 8,
+        pointRadius: (ctx) => (ctx.raw > 800 ? 5 : 3), // Reducido
+        pointHoverRadius: 6, // Reducido
       },
     ],
   },
@@ -38,7 +39,8 @@ const chartConfig = ref({
       legend: {
         labels: {
           color: '#00ffab',
-          font: { size: 12 },
+          // ✅ CAMBIO: Letra de leyenda más pequeña
+          font: { size: 10 },
           boxWidth: 0,
         },
       },
@@ -46,7 +48,8 @@ const chartConfig = ref({
         display: true,
         text: 'NIVELES DE CO2 ',
         color: '#00ffab',
-        font: { size: 16, weight: 'bold' },
+        // ✅ CAMBIO: Letra de título más pequeña
+        font: { size: 14, weight: 'bold' },
       },
       annotation: {
         annotations: {
@@ -61,6 +64,8 @@ const chartConfig = ref({
               content: 'Límite seguro',
               enabled: true,
               position: 'right',
+              // ✅ CAMBIO: Letra de anotación más pequeña
+              font: { size: 10 },
             },
           },
         },
@@ -82,6 +87,8 @@ const chartConfig = ref({
           color: '#00ffab',
           maxRotation: 45,
           minRotation: 45,
+          // ✅ CAMBIO: Letra de eje X más pequeña
+          font: { size: 10 },
         },
       },
       y: {
@@ -91,6 +98,8 @@ const chartConfig = ref({
         ticks: {
           color: '#00ffab',
           callback: (value) => `${value} ppm`,
+          // ✅ CAMBIO: Letra de eje Y más pequeña
+          font: { size: 10 },
         },
       },
     },
@@ -104,7 +113,6 @@ const chartConfig = ref({
 function updateChart(newValue) {
   const timeLabel = new Date().toLocaleTimeString()
 
-  // Guardar máximo 10 registros
   if (co2Levels.value.length >= 10) {
     co2Levels.value.shift()
     labels.value.shift()
@@ -113,32 +121,13 @@ function updateChart(newValue) {
   co2Levels.value.push(newValue)
   labels.value.push(timeLabel)
 
-  chartConfig.value = {
-    ...chartConfig.value,
-    data: {
-      labels: [...labels.value],
-      datasets: [
-        {
-          ...chartConfig.value.data.datasets[0],
-          data: [...co2Levels.value],
-        },
-      ],
-    },
-    options: {
-      ...chartConfig.value.options,
-      scales: {
-        ...chartConfig.value.options.scales,
-        y: {
-          suggestedMin: Math.max(300, Math.min(...co2Levels.value) * 0.9),
-          suggestedMax: Math.min(5000, Math.max(...co2Levels.value) * 1.1),
-          grid: { color: 'rgba(255,255,255,0.05)' },
-          ticks: {
-            color: '#00ffab',
-            callback: (value) => `${value} ppm`,
-          },
-        },
-      },
-    },
+  // La lógica de actualización del gráfico es correcta, solo actualizamos las opciones de escala en el objeto
+  chartConfig.value.data.labels = [...labels.value]
+  chartConfig.value.data.datasets[0].data = [...co2Levels.value]
+  chartConfig.value.options.scales.y = {
+    ...chartConfig.value.options.scales.y, // Mantiene las otras opciones como color y font
+    suggestedMin: Math.max(300, Math.min(...co2Levels.value) * 0.9),
+    suggestedMax: Math.min(5000, Math.max(...co2Levels.value) * 1.1),
   }
 }
 
@@ -156,35 +145,42 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
+/* ✅ CAMBIO: Contenedor más compacto */
 .chart--co2 {
   background: var(--color-bg-header);
-  border-radius: 16px;
-  padding: 20px;
-  border-top: 3px solid #00ffab;
+  border-radius: 12px; /* Reducido */
+  padding: 15px; /* Reducido */
+  border-top: 2px solid #00ffab; /* Reducido */
   position: relative;
 }
 
+/* ✅ CAMBIO: Alerta más pequeña */
 .chart--co2__alert {
   position: absolute;
-  top: 15px;
+  top: 10px; /* Ajustado */
   right: 15px;
-
-  padding: 5px 10px;
+  background-color: #ff0000; /* Añadido para mejor visibilidad */
+  color: #fff; /* Añadido para mejor visibilidad */
+  padding: 4px 8px; /* Reducido */
   border-radius: 20px;
-  font-size: 0.8rem;
+  font-size: 0.7rem; /* Reducido */
   font-weight: bold;
-  animation: pulse 2s infinite;
+  animation: pulse 1.5s infinite;
+  z-index: 10;
 }
 
 @keyframes pulse {
   0% {
-    opacity: 0.7;
-  }
-  50% {
+    transform: scale(1);
     opacity: 1;
   }
-  100% {
+  50% {
+    transform: scale(1.05);
     opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
   }
 }
 </style>

@@ -2,9 +2,9 @@
   <div v-if="show" class="modal" @click.self="closeModal">
     <div class="modal__container modal__container--edit">
       <div class="modal__header">
-        <h3 class="modal__title">
+        <h4 class="modal__title">
           {{ editing ? 'Editar Usuario' : 'Nuevo Usuario' }}
-        </h3>
+        </h4>
         <button class="modal__close" @click="closeModal" aria-label="Cerrar modal">
           <font-awesome-icon :icon="faXmark" />
         </button>
@@ -121,7 +121,7 @@ const handleSubmit = () => {
 
 /* Header */
 .modal__header {
-  padding: 20px;
+  padding: 12px 20px 10px 20px;
   border-bottom: 1px solid var(--color-primary-dark);
   display: flex;
   justify-content: space-between;
@@ -131,6 +131,7 @@ const handleSubmit = () => {
 .modal__title {
   color: var(--color-primary);
   margin: 0;
+  font-weight: 600;
 }
 
 .modal__close {
@@ -148,7 +149,7 @@ const handleSubmit = () => {
 
 /* Body */
 .modal__body {
-  padding: 20px;
+  padding: 10px 20px 10px 20px;
 }
 
 /* Form */
@@ -160,11 +161,12 @@ const handleSubmit = () => {
   display: block;
   margin-bottom: 8px;
   color: var(--color-text-secondary);
+  font-size: 0.85rem;
 }
 
 .modal__input {
   width: 100%;
-  padding: 10px;
+  padding: 7px;
   border-radius: 8px;
   border: 1px solid var(--color-primary-dark);
   background-color: var(--color-bg-card);
@@ -188,7 +190,7 @@ const handleSubmit = () => {
 
 /* Botones */
 .modal__btn {
-  padding: 10px 20px;
+  padding: 7px 20px;
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;

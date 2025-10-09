@@ -74,15 +74,18 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .chart {
+  display: flex;
   position: relative;
   width: 100%;
   height: 100%;
   min-height: 200px;
+  align-items: center;
+  justify-content: center;
 }
 
 .chart__canvas {
   display: block; /* Elimina espacio extra debajo del canvas */
-  width: 100% !important;
-  height: 100% !important;
+  width: 90% !important;
+  height: 90% !important;
 }
 </style>

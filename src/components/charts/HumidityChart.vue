@@ -1,4 +1,3 @@
-<!-- src/components/charts/HumidityChart.vue -->
 <template>
   <div class="chart chart--humidity">
     <BaseChart :config="chartConfig" />
@@ -27,11 +26,11 @@ const chartConfig = ref({
             ? 'rgba(255, 0, 0, 0.7)' // Rojo para humedad alta
             : value < 30
               ? 'rgba(0, 100, 255, 0.7)' // Azul para humedad baja
-              : '#00ffab' // Morado para rango normal
+              : '#00ffab' // Color normal
         },
         borderColor: '#00ffab',
         borderWidth: 1,
-        borderRadius: 6,
+        borderRadius: 4, // ✅ Reducido
         borderSkipped: false,
         categoryPercentage: 0.8,
         barPercentage: 0.9,
@@ -46,10 +45,11 @@ const chartConfig = ref({
       },
       title: {
         display: true,
-        text: 'HUMEDAD RELATIVA ',
+        text: 'HUMEDAD RELATIVA',
         color: '#00ffab',
-        font: { size: 16, weight: 'bold' },
-        padding: { bottom: 10 },
+        // ✅ CAMBIO: Título más pequeño
+        font: { size: 14, weight: 'bold' },
+        padding: { bottom: 5 }, // Reducido
       },
       tooltip: {
         callbacks: {
@@ -60,7 +60,8 @@ const chartConfig = ref({
         display: true,
         text: '',
         color: '#00ffab',
-        font: { size: 10 },
+        // ✅ CAMBIO: Subtítulo más pequeño
+        font: { size: 9 },
       },
     },
     scales: {
@@ -70,6 +71,8 @@ const chartConfig = ref({
           color: '#00ffab',
           maxRotation: 45,
           minRotation: 45,
+          // ✅ CAMBIO: Letra de eje X más pequeña
+          font: { size: 10 },
         },
       },
       y: {
@@ -79,6 +82,8 @@ const chartConfig = ref({
         ticks: {
           color: '#00ffab',
           callback: (value) => `${value}%`,
+          // ✅ CAMBIO: Letra de eje Y más pequeña
+          font: { size: 10 },
         },
       },
     },
@@ -92,7 +97,6 @@ const chartConfig = ref({
 function updateChart(newValue) {
   const timeLabel = new Date().toLocaleTimeString()
 
-  // Mantener solo las últimas 8 mediciones
   if (humidityLevels.value.length >= 8) {
     humidityLevels.value.shift()
     labels.value.shift()
@@ -103,8 +107,6 @@ function updateChart(newValue) {
 
   chartConfig.value.data.labels = [...labels.value]
   chartConfig.value.data.datasets[0].data = [...humidityLevels.value]
-
-  // Actualizar subtítulo con hora
   chartConfig.value.options.plugins.subtitle.text = `Actualizado: ${timeLabel}`
 }
 
@@ -122,11 +124,12 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
+/* ✅ CAMBIO: Contenedor más compacto */
 .chart--humidity {
   background: var(--color-bg-header);
-  border-radius: 16px;
-  padding: 20px;
+  border-radius: 12px; /* Reducido */
+  padding: 15px; /* Reducido */
   backdrop-filter: blur(5px);
-  border-top: 3px solid #00ffab;
+  border-top: 2px solid #00ffab; /* Reducido */
 }
 </style>

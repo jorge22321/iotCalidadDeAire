@@ -2,7 +2,7 @@
   <div v-if="show" class="modal" @click.self="closeModal">
     <div class="modal__container modal__container--confirm">
       <div class="modal__header">
-        <h3 class="modal__title">{{ title }}</h3>
+        <h4 class="modal__title">{{ title }}</h4>
         <button class="modal__close" @click="closeModal" aria-label="Cerrar modal">
           <font-awesome-icon :icon="faXmark" />
         </button>
@@ -66,7 +66,7 @@ const confirmDelete = () => emit('confirm')
 
 /* Header */
 .modal__header {
-  padding: 20px;
+  padding: 10px 20px 10px 20px;
   border-bottom: 1px solid var(--color-primary-dark);
   display: flex;
   justify-content: space-between;
@@ -76,6 +76,7 @@ const confirmDelete = () => emit('confirm')
 .modal__title {
   color: var(--color-primary);
   margin: 0;
+  font-weight: 600;
 }
 
 .modal__close {
@@ -93,12 +94,13 @@ const confirmDelete = () => emit('confirm')
 
 /* Body */
 .modal__body {
-  padding: 20px;
+  padding: 12px 20px 12px 20px;
 }
 
 .modal__message {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   color: var(--color-text-main);
+  font-size: 0.8rem;
 }
 
 /* Actions */
@@ -110,7 +112,7 @@ const confirmDelete = () => emit('confirm')
 
 /* Botones */
 .modal__btn {
-  padding: 10px 20px;
+  padding: 7px 20px;
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;

@@ -84,7 +84,7 @@ onMounted(() => {
 <style scoped>
 /* Sidebar base */
 .sidebar {
-  width: 200px;
+  width: 160px;
   height: 100%;
   background: var(--color-bg-header);
   position: sticky;
@@ -122,7 +122,7 @@ onMounted(() => {
 .sidebar__logo-container {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
   transition: all 0.3s ease;
 }
 
@@ -133,14 +133,14 @@ onMounted(() => {
 }
 
 .sidebar__logo {
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   min-width: 30px;
   margin-top: 8px;
 }
 
 .sidebar__app-name {
-  font-size: 1.2rem;
+  font-size: 0.9rem;
   font-weight: bold;
   color: var(--color-primary);
   white-space: nowrap;
@@ -151,7 +151,7 @@ onMounted(() => {
   background: none;
   border: none;
   color: var(--color-primary);
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   cursor: pointer;
   padding: 5px;
   transition: all 0.3s ease;
@@ -173,7 +173,7 @@ onMounted(() => {
 }
 
 .sidebar__menu-item {
-  padding: 12px 15px;
+  padding: 7px 15px;
   transition: background 0.3s;
   cursor: pointer;
 }
@@ -199,7 +199,7 @@ onMounted(() => {
 
 /* Icon */
 .sidebar__icon {
-  font-size: 1.2rem;
+  font-size: 0.9rem;
   min-width: 30px;
   color: var(--color-primary);
   transition: all 0.3s ease;
@@ -216,6 +216,7 @@ onMounted(() => {
   transition: all 0.3s ease;
   font-weight: 400;
   text-shadow: none;
+  font-size: 0.8rem;
 }
 
 .sidebar__menu-item:hover .sidebar__text {

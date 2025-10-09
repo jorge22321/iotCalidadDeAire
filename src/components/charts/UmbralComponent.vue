@@ -21,7 +21,7 @@
           <input type="number" v-model.number="item.tempValue" class="umbral__input" />
 
           <button @click="adjustValue(index, 1)" class="umbral__btn umbral__btn--plus">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
               <path d="M1 6H11M6 1V11" stroke="white" stroke-width="2" stroke-linecap="round" />
             </svg>
           </button>
@@ -231,19 +231,19 @@ export default {
 }
 
 .umbral__label {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   color: var(--color-primary);
   font-weight: 500;
 }
 
 .umbral__display {
   font-weight: 700;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   color: var(--color-primary-dark);
 }
 
 .umbral__unit {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: var(--color-primary);
   margin-left: 2px;
 }
@@ -265,7 +265,7 @@ export default {
   text-align: center;
   flex-grow: 1;
   max-width: 70px;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
 }
 
 .umbral__input:focus {
@@ -273,8 +273,8 @@ export default {
 }
 
 .umbral__btn {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -317,7 +317,8 @@ export default {
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
+  font-weight: 600;
   text-align: center;
   margin-top: auto;
 }

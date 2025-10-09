@@ -82,16 +82,17 @@ watch(
   gap: 10px;
   font-size: 0.9rem;
   color: var(--color-text-secondary);
+  font-size: 0.8rem;
 }
 
 .pagination__select {
-  padding: 8px 12px;
+  padding: 5px 12px;
   border-radius: 6px;
   border: 1px solid var(--color-primary-dark);
   background: var(--color-bg-header);
   color: var(--color-text-main);
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   transition: all 0.3s ease;
 }
 
@@ -131,7 +132,7 @@ watch(
 
 .pagination__info {
   color: var(--color-text-secondary);
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 500;
 }
 </style>

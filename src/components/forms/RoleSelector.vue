@@ -43,7 +43,7 @@ onMounted(fetchRoles)
 <style scoped>
 /* Contenedor */
 .role-selector {
-  margin-bottom: 1.25rem;
+  margin-bottom: 0;
 }
 
 /* Label opcional (si se añade en el futuro) */
@@ -58,11 +58,13 @@ onMounted(fetchRoles)
 /* Input */
 .role-selector__input {
   width: 100%;
-  padding: 0.65rem 1rem;
+  padding: 0.45rem 0.7rem;
   border-radius: 8px;
   border: 1px solid var(--color-primary-dark);
   background: var(--color-bg-header);
   color: var(--color-text-main);
+  /* ✅ CAMBIO: Letra dentro del selector aún más pequeña */
+  font-size: 0.75rem;
   transition: all 0.3s ease;
 }
 

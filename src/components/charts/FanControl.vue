@@ -209,7 +209,7 @@ export default {
   min-width: 300px;
   padding: 20px;
   border-radius: 10px;
-  background-color: #00ffab; /* Fondo más oscuro para mejor contraste */
+  background: var(--color-bg-header); /* Fondo más oscuro para mejor contraste */
 
   font-family: 'Segoe UI', sans-serif;
   display: grid;
@@ -235,7 +235,7 @@ export default {
   padding: 8px 12px;
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 5px;
-  font-size: 14px;
+  font-size: 0.75rem;
 }
 
 .reading :deep(svg) {
@@ -367,7 +367,7 @@ export default {
   position: absolute;
   width: 100%;
   text-align: center;
-  font-size: 12px;
+  font-size: 0.6rem;
   font-weight: bold;
   transition: all 0.3s;
 }

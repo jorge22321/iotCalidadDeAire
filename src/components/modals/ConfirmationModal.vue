@@ -3,7 +3,7 @@
   <div v-if="show" class="modal" @click.self="close">
     <div class="modal__container">
       <div class="modal__header">
-        <h3 class="modal__title">{{ title }}</h3>
+        <h4 class="modal__title">{{ title }}</h4>
         <button @click="close" class="modal__close" aria-label="Cerrar modal">
           <slot name="close-icon">
             <font-awesome-icon :icon="faTimes" />
@@ -66,7 +66,7 @@ const confirm = () => emit('confirm')
 }
 
 .modal__header {
-  padding: 20px;
+  padding: 10px 20px 10px 20px;
   border-bottom: 1px solid var(--color-primary-dark);
   display: flex;
   justify-content: space-between;
@@ -76,6 +76,7 @@ const confirm = () => emit('confirm')
 .modal__title {
   color: var(--color-primary);
   margin: 0;
+  font-weight: 600;
 }
 
 .modal__close {
@@ -93,8 +94,9 @@ const confirm = () => emit('confirm')
 }
 
 .modal__body {
-  padding: 1.5rem;
+  padding: 12px 20px 12px 20px;
   color: var(--color-text-main);
+  font-size: 0.85rem;
 }
 
 .modal__footer {
@@ -107,7 +109,7 @@ const confirm = () => emit('confirm')
 
 /* Botones */
 .modal__btn {
-  padding: 10px 20px;
+  padding: 7px 20px 7px 20px;
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;

@@ -1,10 +1,7 @@
-<!-- src/components/modals/CreateUserView.vue -->
 <template>
   <div class="user-create">
-    <!-- Panel principal del formulario -->
     <div class="user-create__panel">
       <form @submit.prevent="showConfirmationModal" class="user-create__form">
-        <!-- Sección de información básica -->
         <div class="user-create__section">
           <h3 class="user-create__section-title">
             <font-awesome-icon :icon="faUser" />
@@ -36,7 +33,6 @@
           </div>
         </div>
 
-        <!-- Sección de detalles personales -->
         <div class="user-create__section">
           <h3 class="user-create__section-title">
             <font-awesome-icon :icon="faIdCard" />
@@ -126,7 +122,6 @@
           </div>
         </div>
 
-        <!-- Sección de seguridad -->
         <div class="user-create__section">
           <h3 class="user-create__section-title">
             <font-awesome-icon :icon="faShieldAlt" />
@@ -176,7 +171,6 @@
           </div>
         </div>
 
-        <!-- Acciones del formulario -->
         <div class="user-create__actions">
           <button
             type="button"
@@ -194,7 +188,6 @@
       </form>
     </div>
 
-    <!-- Modal de confirmación -->
     <ConfirmationModal
       v-if="showModal"
       :show="showModal"
@@ -378,7 +371,7 @@ const resetForm = () => {
 </script>
 <style scoped>
 .user-create {
-  padding: 20px;
+  padding: 10px; /* ✅ Aumentado para dar más aire exterior */
   height: 100%;
   background: var(--color-bg-gradient-end);
   color: var(--color-text-main);
@@ -388,13 +381,14 @@ const resetForm = () => {
 .user-create__panel {
   background: var(--color-bg-header);
   border-radius: 8px;
-  padding: 20px;
+  padding: 10px; /* ✅ Aumentado para dar más aire interior */
   border: 1px solid var(--color-primary-dark);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* ✅ CAMBIO: Espaciado entre secciones reducido */
 .user-create__section {
-  padding-bottom: 20px;
+  padding-bottom: 15px;
 }
 
 .user-create__section:last-child {
@@ -402,20 +396,23 @@ const resetForm = () => {
   margin-bottom: 0;
 }
 
+/* ✅ CAMBIO: Título de sección más pequeño y con menos margen */
 .user-create__section-title {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 500;
   color: var(--color-primary);
-  margin-bottom: 15px;
+  margin-bottom: 12px;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
+/* ✅ CAMBIO CLAVE: Grid más compacto */
 .user-create__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+  /* El ancho mínimo ahora es más pequeño, permite más columnas */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px; /* Espacio entre campos reducido */
 }
 
 .user-create__group {
@@ -424,21 +421,24 @@ const resetForm = () => {
 }
 
 .user-create__group--notification {
-  margin-top: -40px;
+  /* Ajustado para el nuevo tamaño del switch */
+  margin-top: -36px;
 }
 
+/* ✅ CAMBIO: Etiqueta de campo más pequeña */
 .user-create__label {
   display: block;
-  margin-bottom: 8px;
-  font-size: 0.9rem;
+  margin-bottom: 6px; /* Reducido */
+  font-size: 0.85rem;
   font-weight: 500;
   color: var(--color-primary);
 }
 
+/* ✅ CAMBIO: Texto de ayuda más pequeño */
 .user-create__hint {
   display: block;
-  margin-top: 5px;
-  font-size: 0.8rem;
+  margin-top: 0px; /* Reducido */
+  font-size: 0.75rem;
   color: var(--color-text-secondary);
 }
 
@@ -561,12 +561,12 @@ const resetForm = () => {
   background: var(--color-accent);
 }
 
-/* Switch */
+/* ✅ CAMBIO: Switch más pequeño */
 .user-create__switch {
   position: relative;
   display: inline-block;
-  width: 50px;
-  height: 24px;
+  width: 44px;
+  height: 22px;
 }
 
 .user-create__switch input {
@@ -589,8 +589,8 @@ const resetForm = () => {
 .user-create__slider:before {
   position: absolute;
   content: '';
-  height: 16px;
-  width: 16px;
+  height: 14px;
+  width: 14px;
   left: 4px;
   bottom: 4px;
   background-color: var(--color-bg-header);
@@ -606,35 +606,36 @@ const resetForm = () => {
 }
 
 .user-create__switch input:checked + .user-create__slider:before {
-  transform: translateX(26px);
+  transform: translateX(22px);
 }
 
 .user-create__slider--round {
-  border-radius: 24px;
+  border-radius: 22px;
 }
 
 .user-create__slider--round:before {
   border-radius: 50%;
 }
 
-/* Botones y acciones */
+/* ✅ CAMBIO: Espaciado de acciones reducido */
 .user-create__actions {
   display: flex;
   justify-content: flex-end;
   gap: 15px;
-  margin-top: 25px;
-  padding-top: 20px;
+  margin-top: 0px;
+  padding-top: 10px;
   border-top: 1px solid var(--color-primary-dark);
 }
 
+/* ✅ CAMBIO: Botones más pequeños (padding y font-size) */
 .user-create__btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 10px 20px;
+  padding: 8px 16px;
   border-radius: 6px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -668,20 +669,19 @@ const resetForm = () => {
   .user-create__grid {
     grid-template-columns: 1fr;
   }
-
+  .user-create__panel {
+    padding: 15px;
+  }
   .user-create__permissions {
     grid-template-columns: 1fr;
   }
-
   .user-create__radio-group {
     flex-direction: column;
     gap: 10px;
   }
-
   .user-create__actions {
     flex-direction: column-reverse;
   }
-
   .user-create__btn {
     width: 100%;
   }

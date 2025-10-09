@@ -78,14 +78,10 @@ function logout() {
   transition: all 0.3s ease;
 }
 
-.profile-dropdown__trigger:hover {
-  background: var(--color-primary-dark);
-}
-
 /* Nombre de usuario */
 .profile-dropdown__username {
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.8rem;
   color: var(--color-primary);
 }
 
@@ -123,13 +119,13 @@ function logout() {
 
 /* Items */
 .profile-dropdown__item {
-  padding: 12px 16px;
+  padding: 8px 16px;
   cursor: pointer;
   transition: all 0.2s ease;
   color: var(--color-text-main);
   display: flex;
   align-items: center;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 
 .profile-dropdown__item:hover {

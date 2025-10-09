@@ -23,17 +23,20 @@ import UmbralComponent from '@/components/charts/UmbralComponent.vue'
 
 <style scoped>
 .dashboard {
+  display: flex;
   height: calc(100vh - 50px);
   overflow-y: auto;
-  padding: 10px;
+  padding: 15px;
   background: var(--color-bg-gradient-end);
+  align-items: center;
+  justify-content: center;
 }
 
 .dashboard__grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-auto-rows: minmax(250px, auto);
-  gap: 10px;
+  gap: 15px;
   width: 100%;
   max-width: 1800px;
   margin: 0 auto;
@@ -52,32 +55,32 @@ import UmbralComponent from '@/components/charts/UmbralComponent.vue'
 /* Áreas */
 .dashboard__chart--pressure {
   grid-area: G1;
-  height: 257px;
+  height: 250px;
 }
 
 .dashboard__chart--temperature {
   grid-area: G2;
-  height: 257px;
+  height: 250px;
 }
 
 .dashboard__chart--humidity {
   grid-area: G3;
-  height: 257px;
+  height: 250px;
 }
 
 .dashboard__chart--co2 {
   grid-area: G4;
-  height: 257px;
+  height: 250px;
 }
 
 .dashboard__chart--umbral {
   grid-area: G5;
-  height: 257px;
+  height: 250px;
 }
 
 .dashboard__chart--fan-control {
   grid-area: G6;
-  height: 257px;
+  height: 250px;
 }
 
 /* Responsive */

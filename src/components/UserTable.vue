@@ -167,6 +167,7 @@ function formatStatus(status) {
   text-align: left;
   border-bottom: 1px solid var(--color-primary-dark);
   vertical-align: middle;
+  font-size: 0.8rem;
 }
 
 .user-table__header {
@@ -209,7 +210,7 @@ function formatStatus(status) {
 .user-table__status-badge {
   padding: 3px 8px;
   border-radius: 20px;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -274,8 +275,8 @@ function formatStatus(status) {
 .user-table__btn {
   padding: 8px;
   border-radius: 50%;
-  width: 32px;
-  height: 32px;
+  width: 27px;
+  height: 27px;
   display: flex;
   align-items: center;
   justify-content: center;
