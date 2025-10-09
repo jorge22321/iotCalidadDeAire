@@ -1,4 +1,4 @@
-<!-- src/components/modals/ConfirmationModal.vue -->
+<!-- src/components/modals/CreateUserView.vue -->
 <template>
   <div class="user-create">
     <!-- Panel principal del formulario -->

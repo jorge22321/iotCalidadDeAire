@@ -1,7 +1,7 @@
 <!-- src/components/charts/FanControl.vue -->
 <template>
   <div class="fan-control-container">
-    <!-- 📊 Lecturas de sensores (solo visuales, no las tocamos) -->
+    <!-- Lecturas de sensores (solo visuales, no las tocamos) -->
     <div class="sensor-readings">
       <div class="reading temperature">
         <font-awesome-icon icon="thermometer-half" />

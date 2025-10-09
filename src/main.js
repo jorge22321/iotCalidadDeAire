@@ -19,10 +19,22 @@ import {
   faChartLine,
   faMobileScreen,
   faGear,
+  faChevronDown,
+  faCalendarDays,
 } from '@fortawesome/free-solid-svg-icons'
 
 // Agrega íconos a la librería
-library.add(faFan, faPowerOff, faThermometerHalf, faSmog, faChartLine, faMobileScreen, faGear)
+library.add(
+  faFan,
+  faPowerOff,
+  faThermometerHalf,
+  faSmog,
+  faChartLine,
+  faMobileScreen,
+  faGear,
+  faChevronDown,
+  faCalendarDays,
+)
 
 const app = createApp(App)
 
