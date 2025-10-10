@@ -214,8 +214,29 @@ export default {
               label: `${this.form.operation} de ${this.form.metric}`,
               data: values,
               borderColor: '#00ff88',
-              tension: 0.3,
+              tension: 0.3, // Mantén la tensión para suavizar la línea
               fill: false,
+
+              // ✅ --- NUEVA LÓGICA DE pointRadius --- ✅
+              pointRadius: (ctx) => {
+                const data = ctx.chart.data.datasets[0].data
+                const index = ctx.dataIndex
+                const currentValue = data[index]
+                const previousValue = data[index - 1] // Obtener el valor anterior
+
+                // Si es el primer punto, siempre mostrarlo
+                if (index === 0) {
+                  return 3
+                }
+                // Mostrar punto si el valor actual es diferente al anterior
+                if (currentValue !== previousValue) {
+                  return 3
+                }
+                // Ocultar los demás puntos
+                return 0
+              },
+              pointBackgroundColor: '#00ff88', // Color de los puntos visibles
+              pointHoverRadius: 5, // Un radio al pasar el mouse, un poco más pequeño para ser sutil
             },
           ]
 

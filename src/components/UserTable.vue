@@ -71,7 +71,9 @@
         <tr v-for="user in users" :key="user.id" class="user-table__row">
           <td>
             <div class="user-table__info">
-              <div class="user-table__avatar"></div>
+              <div class="user-table__avatar">
+                {{ getInitials(user.username) }}
+              </div>
               <span>{{ user.name }}</span>
             </div>
           </td>
@@ -121,7 +123,7 @@ import {
   faPenToSquare,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons'
-
+import { getInitials } from '@/utils/initials'
 defineProps({
   users: Array,
   sortColumn: String,
@@ -320,5 +322,24 @@ function formatStatus(status) {
   background-color: var(--color-primary-dark);
   border-radius: 10px;
   border: 2px solid var(--color-bg-header);
+}
+.user-table__info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-table__avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--color-primary-dark);
+  color: var(--color-text-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+  flex-shrink: 0; /* Evita que el avatar se encoja */
 }
 </style>

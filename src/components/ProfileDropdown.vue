@@ -3,14 +3,20 @@
   <div class="profile-dropdown">
     <div class="profile-dropdown__trigger" @click="toggleDropdown">
       <span class="profile-dropdown__username">{{ username }}</span>
-      <img :src="avatar" alt="User Avatar" class="profile-dropdown__avatar" />
+      <img
+        v-if="avatar && !isDefaultAvatar"
+        :src="avatar"
+        alt="User Avatar"
+        class="profile-dropdown__avatar"
+      />
+
+      <div v-else class="profile-dropdown__avatar profile-dropdown__avatar--initials">
+        {{ userInitials }}
+      </div>
       <span class="profile-dropdown__icon">▼</span>
     </div>
 
     <div v-if="isOpen" class="profile-dropdown__menu">
-      <div class="profile-dropdown__item" @click="navigateToProfile">
-        <span>Mi perfil</span>
-      </div>
       <div class="profile-dropdown__item" @click="navigateToSettings">
         <span>Configuración</span>
       </div>
@@ -23,8 +29,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { getInitials } from '@/utils/initials'
 
 const props = defineProps({
   username: {
@@ -40,13 +47,13 @@ const props = defineProps({
 const router = useRouter()
 const isOpen = ref(false)
 
+// Propiedad computada para saber si estamos usando el avatar por defecto
+const isDefaultAvatar = computed(() => props.avatar === '@/assets/default-avatar.png')
+
+// Propiedad computada para obtener las iniciales del usuario
+const userInitials = computed(() => getInitials(props.username))
 function toggleDropdown() {
   isOpen.value = !isOpen.value
-}
-
-function navigateToProfile() {
-  router.push('/profile')
-  isOpen.value = false
 }
 
 function navigateToSettings() {
@@ -144,6 +151,27 @@ function logout() {
   height: 1px;
   background: var(--color-primary-dark);
   margin: 4px 0;
+}
+
+/* Avatar */
+.profile-dropdown__avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-accent);
+}
+
+/* NUEVO: Estilos para el contenedor de iniciales */
+.profile-dropdown__avatar--initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-primary); /* Un color de fondo */
+  color: var(--color-bg-header); /* Color del texto */
+  font-weight: 600;
+  font-size: 0.8rem;
+  user-select: none; /* Para que no se pueda seleccionar el texto */
 }
 
 /* Animación de aparición */
