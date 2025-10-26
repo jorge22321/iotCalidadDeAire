@@ -16,8 +16,9 @@ const listeners = {}
  * Funcionalidad: Maneja conexión, reconexión automática y eventos
  */
 export function connectWebSocket(url) {
-  if (socket && socket.readyState === WebSocket.OPEN) {
-    console.warn('⚠️ Ya existe una conexión WebSocket abierta')
+  // Evitar crear múltiples conexiones si ya existe una en OPEN or CONNECTING or CLOSING
+  if (socket && socket.readyState !== WebSocket.CLOSED) {
+    console.warn('⚠️ Ya existe una conexión WebSocket (OPEN/CONNECTING), reusando')
     return
   }
 
@@ -77,6 +78,12 @@ export function onWSMessage(type, callback) {
   listeners[type].push(callback)
 }
 
+// Permite eliminar un listener registrado previamente
+export function offWSMessage(type, callback) {
+  if (!listeners[type]) return
+  listeners[type] = listeners[type].filter((cb) => cb !== callback)
+}
+
 /**
  * ================================
  * CERRAR CONEXIÓN MANUALMENTE
@@ -87,7 +94,13 @@ export function onWSMessage(type, callback) {
 export function closeWebSocket() {
   if (socket) {
     console.log('🔌 Cerrando conexión WebSocket manualmente')
-    socket.close()
+    try {
+      socket.close()
+    } catch (e) {
+      console.warn('Error cerrando socket:', e)
+    }
+    socket = null
+    clearTimeout(reconnectTimeout)
   }
 }
 

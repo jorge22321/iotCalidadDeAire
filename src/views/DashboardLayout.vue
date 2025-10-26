@@ -1,5 +1,3 @@
-<!-- src/views/DashboardLayout.vue -->
-
 <template>
   <div class="layout">
     <SidebarMenu class="layout__sidebar" />
@@ -8,7 +6,11 @@
       <Header :username="username" :title="currentRouteTitle" />
 
       <main class="layout__content">
-        <router-view />
+        <router-view v-slot="{ Component }">
+          <KeepAlive>
+            <component :is="Component" />
+          </KeepAlive>
+        </router-view>
       </main>
     </div>
   </div>
@@ -123,12 +125,6 @@ watch(
 
   .layout__content {
     overflow: auto;
-  }
-}
-
-@media (max-width: 480px) {
-  .layout__content {
-    padding: 8px;
   }
 }
 </style>

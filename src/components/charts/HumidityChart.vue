@@ -7,10 +7,11 @@
 <script setup>
 import BaseChart from './BaseChart.vue'
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { connectWebSocket, onWSMessage, closeWebSocket } from '@/services/websocket.js'
+import { connectWebSocket, onWSMessage, offWSMessage } from '@/services/websocket.js'
 
 const humidityLevels = ref([])
 const labels = ref([])
+let handleHumidity = null
 
 const chartConfig = ref({
   type: 'bar',
@@ -111,15 +112,21 @@ function updateChart(newValue) {
 }
 
 onMounted(() => {
-  connectWebSocket('ws://localhost:3000')
+  const API_HOST = import.meta.env.VITE_API_HOST || window.location.hostname
+  const API_PORT = import.meta.env.VITE_API_PORT || '3000'
+  const WS_PROTOCOL = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
+  const WS_URL = `${WS_PROTOCOL}//${API_HOST}:${API_PORT}`
+  connectWebSocket(WS_URL)
 
-  onWSMessage('humidity', (data) => {
+  handleHumidity = (data) => {
     updateChart(data.value)
-  })
+  }
+
+  onWSMessage('humidity', handleHumidity)
 })
 
 onBeforeUnmount(() => {
-  closeWebSocket()
+  offWSMessage('humidity', handleHumidity)
 })
 </script>
 

@@ -17,10 +17,6 @@
     </div>
 
     <div v-if="isOpen" class="profile-dropdown__menu">
-      <div class="profile-dropdown__item" @click="navigateToSettings">
-        <span>Configuración</span>
-      </div>
-      <div class="profile-dropdown__divider"></div>
       <div class="profile-dropdown__item profile-dropdown__item--logout" @click="logout">
         <span>Cerrar sesión</span>
       </div>
@@ -54,11 +50,6 @@ const isDefaultAvatar = computed(() => props.avatar === '@/assets/default-avatar
 const userInitials = computed(() => getInitials(props.username))
 function toggleDropdown() {
   isOpen.value = !isOpen.value
-}
-
-function navigateToSettings() {
-  router.push('/settings')
-  isOpen.value = false
 }
 
 function logout() {

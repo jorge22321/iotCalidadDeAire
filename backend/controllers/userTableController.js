@@ -1,3 +1,5 @@
+// backend/controllers/userTableController.js
+
 import pool from '../database/mysql.js'
 
 /* ============================================================

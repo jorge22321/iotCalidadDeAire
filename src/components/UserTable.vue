@@ -63,7 +63,7 @@
               "
             />
           </th>
-          <th class="user-table__header">Dispositivos</th>
+
           <th class="user-table__header">Acciones</th>
         </tr>
       </thead>
@@ -88,12 +88,7 @@
               formatStatus(user.status)
             }}</span>
           </td>
-          <td>
-            <div class="user-table__devices">
-              <font-awesome-icon :icon="faMicrochip" />
-              <span>{{ user.devices_count || 0 }}</span>
-            </div>
-          </td>
+
           <td>
             <div class="user-table__actions">
               <button class="user-table__btn user-table__btn--edit" @click="$emit('edit', user)">

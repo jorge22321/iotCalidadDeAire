@@ -16,6 +16,9 @@
         >
           Home
         </a>
+        <a href="#" @click.prevent="setVista('registro')" class="home__link home__link--primary">
+          Registro
+        </a>
         <a href="#" @click.prevent="setVista('login')" class="home__link home__link--secondary">
           Iniciar sesión
         </a>
@@ -25,6 +28,7 @@
     <main class="home__content">
       <Presentacion v-if="vista === 'presentacion'" />
       <LoginForm v-if="vista === 'login'" />
+      <RegistroForm v-if="vista === 'registro'" />
     </main>
   </div>
 </template>
@@ -33,7 +37,7 @@
 import { ref } from 'vue'
 import Presentacion from '@/components/Presentacion.vue'
 import LoginForm from '@/components/LoginForm.vue'
-
+import RegistroForm from '@/components/RegistroForm.vue'
 const vista = ref('presentacion')
 
 function setVista(nuevaVista) {
@@ -46,11 +50,7 @@ function setVista(nuevaVista) {
   inset: 0;
   min-height: 100vh;
   width: 100vw;
-  background: linear-gradient(
-    135deg,
-    var(--color-bg-gradient-start) 0%,
-    var(--color-bg-gradient-end) 100%
-  );
+  background: var(--color-bg-card);
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
@@ -139,8 +139,17 @@ function setVista(nuevaVista) {
   margin: 0 auto;
   padding: 36px 20px;
   background: var(--color-bg-card);
-  box-shadow: var(--color-shadow);
+
   color: var(--color-text-main);
   box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .home__content {
+    padding: 0px;
+  }
+  .home__brand {
+    display: none;
+  }
 }
 </style>

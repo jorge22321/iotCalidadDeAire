@@ -150,4 +150,10 @@ watch(searchQuery, (newValue) => {
   outline: none;
   border-color: var(--color-primary);
 }
+
+@media (max-width: 768px) {
+  .user-filters__input {
+    width: 170px;
+  }
+}
 </style>

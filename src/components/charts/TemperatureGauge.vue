@@ -8,9 +8,10 @@
 <script setup>
 import BaseChart from './BaseChart.vue'
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { connectWebSocket, onWSMessage, closeWebSocket } from '@/services/websocket.js'
+import { connectWebSocket, onWSMessage, offWSMessage } from '@/services/websocket.js'
 
 const currentTemp = ref(0)
+let handleTemperature = null
 
 const chartConfig = ref({
   type: 'doughnut',
@@ -62,16 +63,22 @@ function updateChart(tempValue) {
 }
 
 onMounted(() => {
-  connectWebSocket('ws://localhost:3000')
+  const API_HOST = import.meta.env.VITE_API_HOST || window.location.hostname
+  const API_PORT = import.meta.env.VITE_API_PORT || '3000'
+  const WS_PROTOCOL = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
+  const WS_URL = `${WS_PROTOCOL}//${API_HOST}:${API_PORT}`
+  connectWebSocket(WS_URL)
+
+  handleTemperature = (data) => {
+    updateChart(data.value)
+  }
 
   // Recibir actualizaciones en tiempo real
-  onWSMessage('temperature', (data) => {
-    updateChart(data.value)
-  })
+  onWSMessage('temperature', handleTemperature)
 })
 
 onBeforeUnmount(() => {
-  closeWebSocket()
+  offWSMessage('temperature', handleTemperature)
 })
 </script>
 

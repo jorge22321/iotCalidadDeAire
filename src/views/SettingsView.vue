@@ -67,7 +67,7 @@
         <div class="results-right-stack">
           <div class="data-table-section">
             <div class="table-header">
-              <h5>Datos Crudos</h5>
+              <h5>Datos</h5>
               <button
                 v-if="result && result.data && result.data.length > 0"
                 class="btn-export"
@@ -85,7 +85,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="item in result.data" :key="item._time">
+                  <tr v-for="item in paginatedData" :key="item._time">
                     <td>{{ new Date(item._time).toLocaleString('es-ES') }}</td>
                     <td>{{ item._value.toFixed(2) }}</td>
                   </tr>
@@ -95,9 +95,23 @@
                 <p>Los datos de la consulta aparecerán aquí.</p>
               </div>
             </div>
+            <div class="pagination-controls" v-if="totalPages > 1">
+              <div class="pagination">
+                <button v-if="currentPage > 1" class="btn-page" @click="prevPage">&laquo;</button>
+
+                <span>Página {{ currentPage }} de {{ totalPages }}</span>
+
+                <button v-if="currentPage < totalPages" class="btn-page" @click="nextPage">
+                  &raquo;
+                </button>
+              </div>
+            </div>
           </div>
           <div class="summary">
-            <h3>Resultado:</h3>
+            <h3>
+              <font-awesome-icon icon="info-circle" class="summary-icon" />
+              Resultado:
+            </h3>
             <p v-if="summary">{{ summary }}</p>
             <p v-else>Ejecute una consulta para ver los resultados.</p>
           </div>
@@ -128,7 +142,7 @@ export default {
     return {
       form: {
         metric: '',
-        operation: 'raw',
+        operation: '',
         start: '',
         end: '',
       },
@@ -140,8 +154,33 @@ export default {
       },
       summary: '',
       chartKey: 0,
+
+      // ✅ --- INICIO: NUEVOS DATOS PARA PAGINACIÓN --- ✅
+      currentPage: 1, // Página actual
+      pageSize: 20, // Cantidad de items por página (puedes ajustar esto)
     }
   },
+
+  computed: {
+    totalPages() {
+      if (!this.result || !this.result.data || this.result.data.length === 0) {
+        return 0
+      }
+      return Math.ceil(this.result.data.length / this.pageSize)
+    },
+
+    paginatedData() {
+      if (!this.result || !this.result.data) {
+        return []
+      }
+
+      const start = (this.currentPage - 1) * this.pageSize
+      const end = start + this.pageSize
+
+      return this.result.data.slice(start, end)
+    },
+  },
+
   methods: {
     async runQuery() {
       try {
@@ -214,10 +253,9 @@ export default {
               label: `${this.form.operation} de ${this.form.metric}`,
               data: values,
               borderColor: '#00ff88',
-              tension: 0.3, // Mantén la tensión para suavizar la línea
+              tension: 0.3,
               fill: false,
 
-              // ✅ --- NUEVA LÓGICA DE pointRadius --- ✅
               pointRadius: (ctx) => {
                 const data = ctx.chart.data.datasets[0].data
                 const index = ctx.dataIndex
@@ -338,6 +376,18 @@ export default {
       link.click()
       document.body.removeChild(link)
     },
+
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++
+      }
+    },
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--
+      }
+    },
+    // ✅ --- FIN: NUEVOS MÉTODOS DE PAGINACIÓN --- ✅
 
     openStartDatePicker() {
       this.$refs.startDateInput.showPicker()
@@ -507,32 +557,42 @@ input[type='datetime-local']::-webkit-calendar-picker-indicator {
   min-height: 150px;
 }
 
-/* ✅ CAMBIO: Texto del resumen más pequeño */
 .summary {
-  padding: 15px;
+  margin-left: 13px;
   background: var(--color-bg-header);
-  border-radius: 10px;
-  font-size: 0.85rem; /* Reducido */
-  border: 1px solid var(--color-primary-dark);
+  border-radius: 8px;
+  border: none;
+  border-left: 3px solid var(--color-primary-dark);
+  padding: 5px 15px;
 }
+
 .summary h3 {
   color: var(--color-primary-dark);
   margin-top: 0;
-  margin-bottom: 10px;
-  font-size: 0.8rem;
-  border-bottom: 1px solid var(--color-primary-dark);
-  padding-bottom: 8px;
+
+  /* 5. Corregimos la jerarquía: el título debe ser más grande */
+  font-size: 0.95rem;
+  font-weight: 600; /* Le damos más peso */
+
+  /* 6. Hacemos el diseño más limpio quitando el borde inferior */
+  margin-bottom: 8px; /* Un poco menos de espacio que 10px */
+  border-bottom: none;
+  padding-bottom: 0;
 }
+
 .summary p {
   color: var(--color-text-main);
-  line-height: 1.5;
   margin: 0;
+
+  /* 7. Definimos el tamaño del texto principal (el que tenías) */
+  font-size: 0.85rem;
+  line-height: 1.4; /* Un poco más compacto que 1.5 */
 }
 
 .data-table-section {
   background: var(--color-bg-header);
   border-radius: 10px;
-  padding: 15px;
+  padding: 10px 15px 2px 15px;
 
   display: flex;
   flex-direction: column;
@@ -605,7 +665,7 @@ td {
   padding: 10px 12px;
   text-align: left;
   border-bottom: 1px solid var(--color-primary-dark);
-  font-size: 0.8rem; /* Reducido */
+  font-size: 0.75rem; /* Reducido */
 }
 
 thead th {
@@ -626,6 +686,49 @@ tbody tr:last-child td {
   border-bottom: none;
 }
 
+.pagination-controls {
+  width: auto;
+  display: flex;
+  justify-content: end;
+}
+.pagination {
+  width: 45%;
+  display: flex;
+  justify-content: center; /* Centra los elementos */
+  gap: 16px; /* Añade un espacio entre los botones y el texto */
+  align-items: center;
+  padding: 4px;
+  margin-top: 10px;
+  background-color: var(--color-bg-header); /* Un fondo sutil */
+  border-radius: 8px;
+}
+
+.pagination span {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-main);
+}
+
+.btn-page {
+  background-color: var(--color-primary-dark); /* Color primario (ajusta a tu paleta) */
+  color: white;
+  border: none;
+  padding: 2px 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1.3rem;
+  transition: background-color 0.2s ease;
+}
+
+.btn-page:hover {
+  background-color: var(--color-primary-dark); /* Un poco más oscuro al pasar el mouse */
+}
+
+.btn-page:disabled {
+  color: var(--color-primary-dark);
+  cursor: not-allowed;
+}
 /* Responsive */
 @media (max-width: 1024px) {
   .results-grid {
@@ -639,6 +742,13 @@ tbody tr:last-child td {
   }
   .setting-contenedor {
     padding: 15px;
+  }
+  .visualization-container {
+    height: auto;
+    padding: 0px;
+  }
+  .chart {
+    height: 100%;
   }
   .form-grid {
     grid-template-columns: 1fr;

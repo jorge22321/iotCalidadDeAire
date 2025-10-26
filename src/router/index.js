@@ -14,6 +14,12 @@ const routes = [
     meta: { hideWhenAuth: true },
   },
   {
+    path: '/set-initial-password',
+    name: 'SetInitialPassword',
+    // La importación dinámica es buena práctica para vistas que no se cargan siempre
+    component: () => import('../views/SetInitialPasswordView.vue'),
+  },
+  {
     path: '/app', // Vista raíz del layout
     component: DashboardLayout,
     meta: { requiresAuth: true },

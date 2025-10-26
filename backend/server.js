@@ -3,6 +3,8 @@ import express from 'express'
 import cors from 'cors'
 import path from 'path'
 import { fileURLToPath } from 'node:url'
+import dotenv from 'dotenv'
+dotenv.config()
 
 // Importar bases de datos y servicios
 import './database/mysql.js'

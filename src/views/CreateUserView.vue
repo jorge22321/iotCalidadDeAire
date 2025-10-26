@@ -24,7 +24,7 @@
               v-model="formData.email"
               label="Correo Electrónico *"
               type="email"
-              placeholder="usuario@empresa.com"
+              placeholder="usuario@gmail.com"
               :error="errors.email"
               required
             >

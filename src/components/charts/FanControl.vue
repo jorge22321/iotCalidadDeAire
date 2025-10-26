@@ -1,56 +1,62 @@
 <!-- src/components/charts/FanControl.vue -->
 <template>
   <div class="fan-control-container">
-    <!-- Lecturas de sensores (solo visuales, no las tocamos) -->
-    <div class="sensor-readings">
-      <div class="reading temperature">
-        <font-awesome-icon icon="thermometer-half" />
-        <span>Temperatura alta detectada: {{ temperature }}°C</span>
-      </div>
-      <div class="reading co2">
-        <font-awesome-icon icon="smog" />
-        <span>CO₂ alto detectado: {{ co2 }}ppm</span>
-      </div>
-    </div>
-
-    <!-- 🎛 Controles de encendido / apagado -->
-    <div class="controls-section">
-      <div class="control-buttons">
-        <button @click="turnOnFan" class="power-btn on" :class="{ active: buttonOnActive }">
-          <font-awesome-icon icon="power-off" />
-        </button>
-        <button
-          @click="turnOffFan"
-          class="power-btn off"
-          :class="{ active: buttonOffActive }"
-          title="Apagar"
-        >
-          <font-awesome-icon icon="power-off" />
-        </button>
+    <!-- 🧩 CONTENEDOR IZQUIERDO -->
+    <div class="left-column">
+      <!-- 🔹 Parte superior: lecturas -->
+      <div class="sensor-readings">
+        <div class="reading temperature">
+          <font-awesome-icon icon="thermometer-half" />
+          <span>Temperatura alta detectada: {{ temperature }}°C</span>
+        </div>
+        <div class="reading co2">
+          <font-awesome-icon icon="smog" />
+          <span>CO₂ alto detectado: {{ co2 }}ppm</span>
+        </div>
       </div>
 
-      <!-- 🔄 Toggle para modo (esto queda como estaba) -->
-      <div class="mode-toggle">
-        <div class="vertical-toggle">
-          <input type="checkbox" id="mode-toggle" v-model="isAutoMode" class="toggle-input" />
-          <label for="mode-toggle" class="toggle-slider">
-            <span class="toggle-text top">Manual</span>
-            <span class="toggle-text bottom">Auto</span>
-          </label>
+      <!-- 🔹 Parte inferior: controles -->
+      <div class="controls-section">
+        <!-- 🔸 Controles de encendido / apagado -->
+        <div class="control-buttons">
+          <button @click="turnOnFan" class="power-btn on" :class="{ active: buttonOnActive }">
+            <font-awesome-icon icon="power-off" />
+          </button>
+          <button
+            @click="turnOffFan"
+            class="power-btn off"
+            :class="{ active: buttonOffActive }"
+            title="Apagar"
+          >
+            <font-awesome-icon icon="power-off" />
+          </button>
+        </div>
+
+        <!-- 🔸 Toggle de modo -->
+        <div class="mode-toggle">
+          <div class="vertical-toggle">
+            <input type="checkbox" id="mode-toggle" v-model="isAutoMode" class="toggle-input" />
+            <label for="mode-toggle" class="toggle-slider">
+              <span class="toggle-text top">Manual</span>
+              <span class="toggle-text bottom">Auto</span>
+            </label>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- 💨 Icono del ventilador físico -->
-    <div class="fan-icon">
-      <div class="fan-container">
-        <font-awesome-icon
-          :icon="['fas', 'fan']"
-          class="fan-icon-main"
-          :class="{ spinning: fanPhysicalStatus }"
-        />
-        <div class="fan-ring" :class="{ spinning: fanPhysicalStatus }"></div>
-        <div class="fan-stand"></div>
+    <!-- 🧩 CONTENEDOR DERECHO -->
+    <div class="right-column">
+      <div class="fan-icon">
+        <div class="fan-container">
+          <font-awesome-icon
+            :icon="['fas', 'fan']"
+            class="fan-icon-main"
+            :class="{ spinning: fanPhysicalStatus }"
+          />
+          <div class="fan-ring" :class="{ spinning: fanPhysicalStatus }"></div>
+          <div class="fan-stand"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -203,30 +209,41 @@ export default {
 </script>
 <style scoped>
 .fan-control-container {
-  position: relative;
-  width: 100%;
+  display: grid;
+
+  align-items: stretch;
+  justify-content: space-between;
   height: 100%;
-  min-width: 300px;
-  padding: 20px;
+  width: 100%;
+  padding: 30px;
+  background: var(--color-bg-header);
   border-radius: 10px;
-  background: var(--color-bg-header); /* Fondo más oscuro para mejor contraste */
 
   font-family: 'Segoe UI', sans-serif;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.2fr 0.8fr;
   grid-template-rows: auto 1fr;
-  gap: 15px;
+  gap: 20px;
   overflow: hidden;
   /* Efectos de neón intensificados */
   border-top: 3px solid #00ffab;
 }
-
+.left-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.right-column {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .sensor-readings {
   grid-column: 1 / span 2;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 60%;
+  width: 100%;
 }
 
 .reading {
@@ -260,17 +277,19 @@ export default {
   color: #00ffab;
 }
 .controls-section {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto; /* izquierda botones / derecha toggle */
   align-items: center;
-  gap: 30px;
-  margin-left: 15%;
+  gap: 20px;
+  margin-top: 20px;
+  padding-right: 20px;
 }
-
 .control-buttons {
   display: flex;
   flex-direction: row;
   gap: 25px;
   align-items: center;
+  justify-content: center;
 }
 
 .power-btn {
@@ -383,7 +402,6 @@ export default {
 }
 
 .fan-icon {
-  position: absolute;
   right: 30px;
   bottom: 30px;
   display: flex;
@@ -403,7 +421,7 @@ export default {
   font-size: 120px;
   color: var(--color-muted);
   transition: all 0.5s ease;
-  position: relative;
+
   z-index: 2;
 }
 
@@ -472,6 +490,38 @@ export default {
   }
   50% {
     transform: translateY(-5px);
+  }
+}
+
+@media (max-width: 768px) {
+  .fan-control-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 🔹 Ahora solo una columna */
+    grid-template-rows: auto auto;
+    gap: 20px;
+    padding: 10px;
+    border-top: 3px solid #00ffab;
+  }
+
+  .left-column,
+  .right-column {
+    justify-content: center;
+    align-items: center;
+  }
+
+  .fan-container {
+    width: 120px; /* 🔹 Más pequeño para pantallas chicas */
+    height: 120px;
+  }
+
+  .fan-icon-main {
+    font-size: 80px; /* 🔹 Reduce el ícono */
+  }
+
+  .fan-ring {
+    width: 100px;
+    height: 100px;
+    border: 8px solid var(--color-muted);
   }
 }
 </style>
