@@ -63,11 +63,7 @@ function updateChart(tempValue) {
 }
 
 onMounted(() => {
-  const API_HOST = import.meta.env.VITE_API_HOST || window.location.hostname
-  const API_PORT = import.meta.env.VITE_API_PORT || '3000'
-  const WS_PROTOCOL = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
-  const WS_URL = `${WS_PROTOCOL}//${API_HOST}:${API_PORT}`
-  connectWebSocket(WS_URL)
+  connectWebSocket()
 
   handleTemperature = (data) => {
     updateChart(data.value)

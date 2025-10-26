@@ -63,6 +63,8 @@
 </template>
 
 <script>
+import { getWsUrl, getApiUrl } from '@/services/api'
+
 export default {
   name: 'FanControl',
   data() {
@@ -100,7 +102,7 @@ export default {
      * ================================
      */
     initWebSocket() {
-      const wsUrl = `ws://${window.location.host}`
+      const wsUrl = getWsUrl()
       this.ws = new WebSocket(wsUrl)
 
       this.ws.onopen = () => {
@@ -145,7 +147,7 @@ export default {
      */
     async sendFanCommand(command) {
       try {
-        const response = await fetch('/api/control-ventilador', {
+        const response = await fetch(`${getApiUrl()}/control-ventilador`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ ventilador: command }),
@@ -172,7 +174,7 @@ export default {
     // Estado real del ventilador (MQTT)
     async checkFanStatus() {
       try {
-        const response = await fetch('/api/status')
+        const response = await fetch(`${getApiUrl()}/status`)
         if (!response.ok) throw new Error('Error al obtener estado')
         const { status } = await response.json()
         this.fanPhysicalStatus = status
@@ -185,7 +187,7 @@ export default {
     async toggleMode() {
       try {
         const mode = this.isAutoMode ? 'manual' : 'automatico'
-        const response = await fetch('/api/mode', {
+        const response = await fetch(`${getApiUrl()}/mode`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ modo: mode }),

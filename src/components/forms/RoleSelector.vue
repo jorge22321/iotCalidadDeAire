@@ -16,14 +16,14 @@
 </template>
 <script setup>
 import { ref, onMounted } from 'vue'
-
+import { getApiUrl } from '@/services/api'
 defineProps({
   modelValue: { type: [String, Number, null], required: true },
 })
 defineEmits(['update:modelValue'])
 
 const roles = ref([])
-const API_URL = 'http://localhost:3000/api'
+const API_URL = getApiUrl()
 
 async function fetchRoles() {
   try {

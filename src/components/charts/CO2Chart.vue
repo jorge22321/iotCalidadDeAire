@@ -1,3 +1,4 @@
+//src/component/charts/CO2Chart.vue
 <template>
   <div class="chart chart--co2">
     <div v-if="showAlert" class="chart--co2__alert">ALERTA: Nivel alto de CO2</div>
@@ -8,7 +9,7 @@
 <script setup>
 import BaseChart from './BaseChart.vue'
 import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
-import { connectWebSocket, onWSMessage, closeWebSocket } from '@/services/websocket.js'
+import { connectWebSocket, onWSMessage, offWSMessage } from '@/services/websocket.js'
 
 const co2Levels = ref([])
 const labels = ref([])
@@ -131,16 +132,20 @@ function updateChart(newValue) {
   }
 }
 
-onMounted(() => {
-  connectWebSocket('ws://localhost:3000')
+let handleCo2 = null
 
-  onWSMessage('co2', (data) => {
+onMounted(() => {
+  connectWebSocket()
+
+  handleCo2 = (data) => {
     updateChart(data.value)
-  })
+  }
+
+  onWSMessage('co2', handleCo2)
 })
 
 onBeforeUnmount(() => {
-  closeWebSocket()
+  offWSMessage('co2', handleCo2)
 })
 </script>
 

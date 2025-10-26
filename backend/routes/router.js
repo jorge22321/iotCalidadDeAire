@@ -1,11 +1,6 @@
 // backend/routes/router.js
 import express from 'express'
-import {
-  getCO2Data,
-  getHumidityData,
-  getTemperatureData,
-  getPressureData,
-} from '../controllers/sensorControllers.js'
+
 import { registrarUsuario } from '../controllers/registroController.js'
 import { getUsers, deleteUser, updateUser } from '../controllers/userTableController.js'
 import { login, logout, verifySession } from '../controllers/authController.js'
@@ -25,12 +20,6 @@ const router = express.Router()
 // Auth
 router.post('/login', login)
 router.post('/logout', verifySession, logout)
-
-// Sensores
-router.get('/co2', getCO2Data)
-router.get('/humidity', getHumidityData)
-router.get('/temperature', getTemperatureData)
-router.get('/pressure', getPressureData)
 
 // IoT Control
 router.post('/control-ventilador', controlVentilador)

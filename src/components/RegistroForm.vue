@@ -48,6 +48,7 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import LoginInput from './forms/LoginInput.vue'
+import { getApiUrl } from '@/services/api'
 
 const formData = reactive({
   nombre: '',
@@ -77,7 +78,7 @@ const handleSubmit = async () => {
 
   try {
     isSubmitting.value = true
-    const response = await fetch('/api/registro', {
+    const response = await fetch(`${getApiUrl()}/registro`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),

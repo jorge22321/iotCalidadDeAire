@@ -31,6 +31,7 @@
 
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
+import { getApiUrl } from '@/services/api'
 import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
@@ -63,7 +64,7 @@ async function handleSubmit() {
   loading.value = true
 
   try {
-    const res = await fetch('http://localhost:3000/api/users/set-initial-password', {
+    const res = await fetch(`${getApiUrl()}/users/set-initial-password`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

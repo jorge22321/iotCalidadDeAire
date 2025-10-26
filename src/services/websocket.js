@@ -8,6 +8,20 @@ let socket = null
 let reconnectTimeout = null
 const listeners = {}
 
+function buildDefaultWsUrl() {
+  try {
+    // import.meta.env is available in Vite-built frontend
+    const host = import.meta.env.VITE_API_HOST || window.location.hostname
+    const port = import.meta.env.VITE_API_PORT || '3000'
+    const protocol =
+      import.meta.env.VITE_WS_PROTOCOL || (window.location.protocol === 'https:' ? 'wss' : 'ws')
+    return `${protocol}://${host}:${port}`
+  } catch (err) {
+    // Fallback
+    return `ws://${window.location.hostname}:3000`
+  }
+}
+
 /**
  * ================================
  * CONECTAR AL WEBSOCKET DEL BACKEND
@@ -16,14 +30,16 @@ const listeners = {}
  * Funcionalidad: Maneja conexión, reconexión automática y eventos
  */
 export function connectWebSocket(url) {
+  const connectUrl = url || buildDefaultWsUrl()
+
   // Evitar crear múltiples conexiones si ya existe una en OPEN or CONNECTING or CLOSING
   if (socket && socket.readyState !== WebSocket.CLOSED) {
     console.warn('⚠️ Ya existe una conexión WebSocket (OPEN/CONNECTING), reusando')
     return
   }
 
-  console.log(`🔌 Conectando a WebSocket: ${url}`)
-  socket = new WebSocket(url)
+  console.log(`🔌 Conectando a WebSocket: ${connectUrl}`)
+  socket = new WebSocket(connectUrl)
 
   // Evento: Conexión establecida
   socket.onopen = () => {

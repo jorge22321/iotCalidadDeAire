@@ -30,6 +30,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import { getApiUrl } from '@/services/api'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import LoginInput from './forms/LoginInput.vue'
@@ -46,7 +47,7 @@ async function login() {
   isLoading.value = true
   error.value = null
   try {
-    const response = await fetch('/api/login', {
+    const response = await fetch(`${getApiUrl()}/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

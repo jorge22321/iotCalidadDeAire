@@ -219,6 +219,7 @@ import {
   faTimes,
 } from '@fortawesome/free-solid-svg-icons'
 import FormField from '@/components/forms/FormField.vue'
+import { getApiUrl } from '@/services/api'
 import RoleSelector from '@/components/forms/RoleSelector.vue'
 import ConfirmationModal from '@/components/modals/ConfirmationModal.vue'
 
@@ -309,7 +310,7 @@ const handleSubmit = async () => {
     // Mostrar loading (puedes implementar esto)
     // loading.value = true
 
-    const response = await fetch('http://localhost:3000/api/users', {
+    const response = await fetch(`${getApiUrl()}/users`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -122,6 +122,7 @@
 </template>
 <script>
 import { Line } from 'vue-chartjs'
+import { getApiUrl } from '@/services/api'
 import {
   Chart as ChartJS,
   Title,
@@ -191,7 +192,7 @@ export default {
           end: this.form.end ? new Date(this.form.end).toISOString() : null,
         }
 
-        const res = await fetch('/api/queries', {
+        const res = await fetch(`${getApiUrl()}/queries`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),

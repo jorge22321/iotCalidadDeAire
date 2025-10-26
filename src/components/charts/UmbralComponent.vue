@@ -40,6 +40,7 @@
 
 <script>
 import { ref, onMounted, onUnmounted } from 'vue'
+import { getApiUrl, getWsUrl } from '@/services/api'
 
 export default {
   name: 'UmbralComponent',
@@ -70,7 +71,7 @@ export default {
 
     // Conectar al WebSocket
     const connectWebSocket = () => {
-      const wsUrl = `ws://${window.location.host}`
+      const wsUrl = getWsUrl()
       ws = new WebSocket(wsUrl)
 
       ws.onopen = () => {
@@ -106,7 +107,7 @@ export default {
 
     onMounted(() => {
       // Obtener valores iniciales
-      fetch('/api/umbrales')
+      fetch(`${getApiUrl()}/umbrales`)
         .then((response) => response.json())
         .then((data) => {
           if (data.co2 !== undefined && data.temperatura !== undefined) {
@@ -145,7 +146,7 @@ export default {
       })
 
       try {
-        const response = await fetch('/api/umbrales', {
+        const response = await fetch(`${getApiUrl()}/umbrales`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

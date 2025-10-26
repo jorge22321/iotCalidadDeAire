@@ -56,14 +56,13 @@ import UserEditModal from '@/components/modals/UserEditModal.vue'
 import ConfirmModal from '@/components/modals/ConfirmDeleteModal.vue'
 
 const router = useRouter()
+import { getApiUrl, getWsUrl } from '@/services/api'
+import { connectWebSocket, onWSMessage, offWSMessage } from '@/services/websocket'
 // Construir la URL de la API y del WebSocket de forma dinámica.
 // Motivación: 'localhost' en el móvil apunta al propio móvil. Usamos
 // import.meta.env (Vite) si está configurado, o el hostname del navegador
 // y un puerto por defecto (3000).
-const API_HOST = import.meta.env.VITE_API_HOST || window.location.hostname
-const API_PORT = import.meta.env.VITE_API_PORT || '3000'
-const API_PROTOCOL = window.location.protocol === 'https:' ? 'https:' : 'http:'
-const API_URL = `${API_PROTOCOL}//${API_HOST}:${API_PORT}/api`
+const API_URL = getApiUrl()
 
 // Estado del componente
 const users = ref([])
@@ -243,56 +242,27 @@ function showNotification(type, message) {
 
 // --- INICIO: SECCIÓN NUEVA ---
 
-let ws = null // Variable para mantener la instancia de WebSocket
+let handleUserSessionUpdate = null
 
-// Inicialización del WebSocket
+// Inicialización: usar cliente WebSocket centralizado
 onMounted(() => {
-  fetchUsers() // Tu llamada original para cargar los datos iniciales
+  fetchUsers()
 
-  // Conectamos al servidor WebSocket (usa ws:// o wss:// según el protocolo)
-  const WS_PROTOCOL = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
-  const WS_URL = `${WS_PROTOCOL}//${API_HOST}:${API_PORT}`
-  ws = new WebSocket(WS_URL)
+  connectWebSocket()
 
-  ws.onopen = () => {
-    console.log('✅ Conectado al servidor WebSocket')
-  }
-
-  ws.onmessage = (event) => {
-    try {
-      const data = JSON.parse(event.data)
-
-      // Verificamos si es el evento que nos interesa
-      if (data.type === 'user_session_update') {
-        console.log('🔄 Recibida actualización de sesión:', data)
-
-        // Buscamos el usuario en nuestro array reactivo
-        const userToUpdate = users.value.find((u) => u.id === data.userId)
-
-        if (userToUpdate) {
-          // Actualizamos la propiedad devices_count. Vue se encargará del resto.
-          userToUpdate.devices_count = data.devices_count
-        }
-      }
-    } catch (error) {
-      console.error('Error procesando mensaje WebSocket:', error)
+  handleUserSessionUpdate = (data) => {
+    if (data.type === 'user_session_update') {
+      console.log('🔄 Recibida actualización de sesión:', data)
+      const userToUpdate = users.value.find((u) => u.id === data.userId)
+      if (userToUpdate) userToUpdate.devices_count = data.devices_count
     }
   }
 
-  ws.onerror = (error) => {
-    console.error('❌ Error de WebSocket:', error)
-  }
-
-  ws.onclose = () => {
-    console.log('🔌 Desconectado del servidor WebSocket')
-  }
+  onWSMessage('user_session_update', handleUserSessionUpdate)
 })
 
-// Limpieza al desmontar el componente
 onBeforeUnmount(() => {
-  if (ws) {
-    ws.close()
-  }
+  if (handleUserSessionUpdate) offWSMessage('user_session_update', handleUserSessionUpdate)
 })
 
 // --- FIN: SECCIÓN NUEVA ---
@@ -303,10 +273,7 @@ watch([currentPage, itemsPerPage], () => {
   }
 })
 
-// Inicialización
-onMounted(() => {
-  fetchUsers()
-})
+// Inicialización: fetchUsers ya se llama en el onMounted que inicializa WS
 </script>
 <style scoped>
 .devices {
