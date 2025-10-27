@@ -1,7 +1,7 @@
 //src/component/charts/CO2Chart.vue
 <template>
   <div class="chart chart--co2">
-    <div v-if="showAlert" class="chart--co2__alert">ALERTA: Nivel alto de CO2</div>
+    <div v-if="isAlertActive" class="chart--co2__alert">ALERTA: Nivel alto de CO2</div>
     <BaseChart :config="chartConfig" />
   </div>
 </template>
@@ -13,7 +13,11 @@ import { connectWebSocket, onWSMessage, offWSMessage } from '@/services/websocke
 
 const co2Levels = ref([])
 const labels = ref([])
-const showAlert = computed(() => co2Levels.value.some((level) => level > 800))
+// Estado de alerta: se activa cuando un valor supera el umbral y
+// se desactiva cuando los últimos N valores están por debajo o iguales al umbral
+const isAlertActive = ref(false)
+const ALERT_THRESHOLD = 800
+const ALERT_RESET_WINDOW = 3 // cantidad de lecturas recientes necesarias para resetear
 
 const chartConfig = ref({
   type: 'line',
@@ -138,7 +142,21 @@ onMounted(() => {
   connectWebSocket()
 
   handleCo2 = (data) => {
-    updateChart(data.value)
+    const val = data.value
+    updateChart(val)
+
+    // Si el valor supera el umbral, activamos alerta inmediatamente
+    if (val > ALERT_THRESHOLD) {
+      isAlertActive.value = true
+      return
+    }
+
+    // Si el valor está por debajo, verificamos la ventana de lecturas recientes
+    const recent = co2Levels.value.slice(-ALERT_RESET_WINDOW)
+    const allNormal = recent.length > 0 && recent.every((v) => v <= ALERT_THRESHOLD)
+    if (allNormal) {
+      isAlertActive.value = false
+    }
   }
 
   onWSMessage('co2', handleCo2)

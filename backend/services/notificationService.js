@@ -71,7 +71,7 @@ export const sendCO2AlertEmail = async (user, co2Value) => {
             <b>Valor Registrado:</b> 
             <span style="color: #d93025; font-weight: bold;">${co2Value.toFixed(2)} PPM</span>
         </p>
-        <p><b>Límite Seguro:</b> 800 PPM</p>
+        
         <br/>
         <p>Por favor, tome las medidas de precaución necesarias, como ventilar el área.</p>
       `,
